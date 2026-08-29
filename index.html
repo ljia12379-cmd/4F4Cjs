@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>document.documentElement.className += ' js';</script>
+<title>4F4C - 无规则生存服务器</title>
+<meta name="description" content="4F4C,一个和 2b2t、3c3u 一样的无规则 MC 服务器。没有规则,只有生存。">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg2: #f3f7fc;
+    --line: #dfe8f2;
+    --text: #23304a;
+    --muted: #6b7a93;
+    --accent: #1e88e5;
+    --accent2: #2196f3;
+    --grad: linear-gradient(135deg, #1e88e5, #42a5f5);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* 顶部滚动进度条 */
+  .progress {
+    position: fixed; top: 0; left: 0; z-index: 60;
+    height: 3px; width: 0;
+    background: var(--grad);
+  }
+
+  /* 滚动显现动画 */
+  .reveal {
+    transition: opacity .7s ease, transform .7s cubic-bezier(.22,.61,.36,1);
+    will-change: opacity, transform;
+  }
+  .js .reveal { opacity: 0; transform: translateY(40px); }
+  .js .reveal-left { transform: translateX(-48px); }
+  .js .reveal-right { transform: translateX(48px); }
+  .js .reveal-zoom { transform: scale(.92); }
+  .js .reveal.visible { opacity: 1; transform: none; }
+  .d-1 { transition-delay: .12s; }
+  .d-2 { transition-delay: .24s; }
+  .d-3 { transition-delay: .36s; }
+  .d-4 { transition-delay: .48s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .js .reveal, .js .reveal-left, .js .reveal-right, .js .reveal-zoom {
+      opacity: 1; transform: none; transition: none;
+    }
+    .mouse::after { animation: none; }
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* 导航 */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 4vw; height: 60px;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .logo { font-weight: 800; letter-spacing: 1px; font-size: 18px; color: var(--text); }
+  .logo span { color: var(--accent); }
+  nav ul { display: flex; gap: 28px; list-style: none; }
+  nav a { color: var(--muted); font-size: 14px; transition: color .2s; }
+  nav a:hover, nav a.active { color: var(--accent); }
+
+  /* 首屏 */
+  header {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center; padding: 100px 5vw 60px;
+    position: relative;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(33, 150, 243, 0.10), transparent 50%),
+      radial-gradient(ellipse at 80% 70%, rgba(33, 150, 243, 0.07), transparent 50%),
+      var(--bg);
+  }
+  header::after {
+    content: ""; position: absolute; inset: auto 0 0 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--line), transparent);
+  }
+  .hero-inner { position: relative; }
+
+  /* 下滑提示 */
+  .scroll-hint {
+    position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    color: var(--muted); font-size: 12px; letter-spacing: 3px;
+    transition: opacity .4s;
+  }
+  .scroll-hint.fade { opacity: 0; }
+  .mouse {
+    width: 24px; height: 38px; border: 2px solid var(--muted);
+    border-radius: 14px; position: relative;
+  }
+  .mouse::after {
+    content: ""; position: absolute; top: 7px; left: 50%;
+    width: 4px; height: 8px; margin-left: -2px; border-radius: 2px;
+    background: var(--accent);
+    animation: wheel 1.6s ease-in-out infinite;
+  }
+  @keyframes wheel {
+    0% { opacity: 1; transform: translateY(0); }
+    70% { opacity: 0; transform: translateY(12px); }
+    100% { opacity: 0; transform: translateY(12px); }
+  }
+  .badge {
+    display: inline-block; padding: 5px 14px; margin-bottom: 24px;
+    font-size: 13px; letter-spacing: 2px; color: var(--accent);
+    border: 1px solid rgba(33, 150, 243, 0.4);
+    border-radius: 999px; background: rgba(33, 150, 243, 0.07);
+  }
+  h1 {
+    font-size: clamp(40px, 9vw, 88px);
+    font-weight: 900; letter-spacing: 2px; line-height: 1.1;
+  }
+  h1 .dot { color: var(--accent); }
+  .tagline {
+    margin-top: 22px; font-size: clamp(15px, 2.4vw, 19px);
+    color: var(--muted); max-width: 640px;
+  }
+  .cta { margin-top: 44px; display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; }
+  .btn {
+    display: inline-block; padding: 14px 34px; font-size: 15px; font-weight: 600;
+    border-radius: 8px; transition: transform .15s, box-shadow .15s;
+    border: 1px solid var(--line);
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-primary {
+    background: var(--grad); color: #fff; border-color: transparent;
+    box-shadow: 0 6px 24px rgba(33, 150, 243, 0.35);
+  }
+  .btn-primary:hover { box-shadow: 0 10px 32px rgba(33, 150, 243, 0.5); }
+  .btn-ghost { color: var(--text); background: var(--bg); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* 区块通用 */
+  section { padding: 90px 5vw; max-width: 1080px; margin: 0 auto; }
+  h2 {
+    font-size: clamp(26px, 4vw, 34px); font-weight: 800;
+    display: flex; align-items: center; gap: 14px; margin-bottom: 14px;
+  }
+  h2::before {
+    content: ""; width: 6px; height: 30px; border-radius: 3px; background: var(--grad);
+  }
+  .sub { color: var(--muted); margin-bottom: 44px; font-size: 15px; }
+
+  /* 介绍卡片 */
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+  .card {
+    background: var(--bg2); border: 1px solid var(--line);
+    border-radius: 12px; padding: 26px 24px;
+    transition: border-color .2s, transform .2s, box-shadow .2s;
+  }
+  .card:hover {
+    border-color: var(--accent); transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(33, 150, 243, 0.12);
+  }
+  .card h3 { font-size: 17px; margin-bottom: 10px; }
+  .card h3 .icon { margin-right: 8px; }
+  .card p { font-size: 14px; color: var(--muted); }
+
+  /* 下载 */
+  .dl-box {
+    background: var(--bg2); border: 1px solid var(--line);
+    border-radius: 12px; padding: 34px 30px; display: flex;
+    align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+  }
+  .dl-box h3 { font-size: 20px; }
+  .dl-box p { color: var(--muted); font-size: 14px; margin-top: 6px; }
+  .dl-info { font-size: 13px; color: var(--muted); margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .dl-info span { border: 1px solid var(--line); padding: 3px 10px; border-radius: 999px; background: var(--bg); color: var(--text); }
+  .dl-tip { display: inline-block; margin-top: 10px; font-size: 13px; color: var(--accent); }
+  .dl-tip:hover { text-decoration: underline; }
+
+  /* 登录教程 */
+  .login-box { display: flex; flex-direction: column; gap: 16px; }
+  .login-step {
+    background: var(--bg2); border: 1px solid var(--line); border-radius: 12px;
+    padding: 22px 24px; display: flex; gap: 18px; align-items: flex-start;
+  }
+  .login-step:hover { border-color: var(--accent); }
+  .login-step > span {
+    flex: none; width: 34px; height: 34px; border-radius: 50%;
+    background: var(--grad); color: #fff; font-weight: 800;
+    display: flex; align-items: center; justify-content: center; font-size: 15px;
+  }
+  .login-step h3 { font-size: 16px; margin-bottom: 4px; }
+  .login-step p { font-size: 14px; color: var(--muted); }
+  .login-step a { color: var(--accent); }
+  .login-help {
+    margin-top: 20px; text-align: center; color: var(--muted); font-size: 14px;
+  }
+  .login-help a { color: var(--accent); font-weight: 600; margin-left: 4px; }
+
+  /* QQ 群 */
+  .qq {
+    text-align: center;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(33, 150, 243, 0.10), transparent 60%),
+      var(--bg2);
+    border: 1px solid var(--line); border-radius: 16px;
+    padding: 60px 30px;
+  }
+  .qq .q-num {
+    font-size: clamp(24px, 5vw, 36px); font-weight: 900; letter-spacing: 3px;
+    color: var(--accent); margin-top: 10px; user-select: all;
+  }
+  .qq .hint { color: var(--muted); font-size: 14px; margin-top: 18px; }
+  .qq .btn { margin-top: 28px; }
+
+  footer {
+    text-align: center; padding: 36px 5vw 44px;
+    color: var(--muted); font-size: 13px;
+    border-top: 1px solid var(--line);
+  }
+
+  @media (max-width: 640px) {
+    nav ul { gap: 16px; }
+    section { padding: 64px 5vw; }
+    .dl-box { flex-direction: column; align-items: flex-start; text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" aria-hidden="true"></div>
+
+<nav>
+  <div class="logo">4F4C<span>.</span></div>
+  <ul>
+    <li><a href="#intro">介绍</a></li>
+    <li><a href="#download">下载</a></li>
+    <li><a href="#login">登录</a></li>
+    <li><a href="#qq">QQ 群</a></li>
+  </ul>
+</nav>
+
+<header>
+  <div class="hero-inner">
+    <div class="badge reveal">NO RULES · 无规则生存</div>
+    <h1 class="reveal d-1">4F4C<span class="dot">.</span></h1>
+    <p class="tagline reveal d-2">和 2b2t、3c3u 一样的无规则服务器。<br>这里没有管理员,没有规则,没有限制——只有生存本身。</p>
+    <div class="cta reveal d-3">
+      <a class="btn btn-primary" href="#download">下载整合包</a>
+      <a class="btn btn-ghost" href="#qq">加入 QQ 群</a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="mouse"></div>
+    <span>下滑探索</span>
+  </div>
+</header>
+
+<section id="intro">
+  <h2 class="reveal">服务器介绍</h2>
+  <p class="sub reveal d-1">混乱是这里的秩序,生存是唯一的法则。</p>
+  <div class="cards">
+    <div class="card reveal d-1">
+      <h3><span class="icon">🔥</span>无规则</h3>
+      <p>和 2b2t、3c3u 一样:没有规矩,没有审判,没有回档求饶。PvP、破坏、轰炸、作弊——一切皆被允许。</p>
+    </div>
+    <div class="card reveal d-2">
+      <h3><span class="icon">🌍</span>完整生存</h3>
+      <p>原汁原味的生存体验,从第一块木头到末地龙,一切由你亲手书写。世界不会因你而重置。</p>
+    </div>
+    <div class="card reveal d-3">
+      <h3><span class="icon">⚔️</span>适者生存</h3>
+      <p>没有保护的庇护所,没有安全的基地。学会隐藏、合作或征服,否则就消亡。历史由强者书写。</p>
+    </div>
+    <div class="card reveal d-4">
+      <h3><span class="icon">📜</span>真实历史</h3>
+      <p>每一次出生、每一场战争都被世界铭记。遗迹是教训,废墟是墓碑,你的故事也将成为传说。</p>
+    </div>
+  </div>
+</section>
+
+<section id="download">
+  <h2 class="reveal">整合包下载</h2>
+  <p class="sub reveal d-1">下载整合包,导入启动器即可直接游玩。</p>
+  <div class="dl-box reveal d-2">
+    <div>
+      <h3>4F4C 整合包</h3>
+      <p>包含全部所需模组与配置,下载后导入 PCL2 / HMCL 等启动器即可开玩。</p>
+      <a class="dl-tip" href="#login">不会登录?往下看 LittleSkin 教程 ↓</a>
+      <div class="dl-info">
+        <span>版本:1.20.1</span>
+        <span>类型:Forge 模组生存</span>
+        <span>大小:约 31 KB</span>
+        <span>导入启动器即玩</span>
+      </div>
+    </div>
+    <a class="btn btn-primary" href="4F4C.zip" download>立即下载</a>
+  </div>
+</section>
+
+<section id="login">
+  <h2 class="reveal">服务器登录</h2>
+  <p class="sub reveal d-1">无需正版,服务器通过 LittleSkin 皮肤站登录(离线模式)。</p>
+  <div class="login-box">
+    <div class="login-step reveal">
+      <span>1</span>
+      <div>
+        <h3>注册 LittleSkin 账号</h3>
+        <p>打开 <a href="https://littleskin.cn" target="_blank" rel="noopener">littleskin.cn</a>,免费注册一个账号。</p>
+      </div>
+    </div>
+    <div class="login-step reveal d-1">
+      <span>2</span>
+      <div>
+        <h3>启动器配置</h3>
+        <p>在 PCL2 / HMCL 中下载安装 Authlib-Injector,登录方式选择「LittleSkin」,填入 API 地址即可。</p>
+      </div>
+    </div>
+    <div class="login-step reveal d-2">
+      <span>3</span>
+      <div>
+        <h3>进入服务器</h3>
+        <p>用注册的 LittleSkin 账号登录游戏,选择 4F4C 服务器,开始你的生存。</p>
+      </div>
+    </div>
+  </div>
+  <p class="login-help reveal d-3">不会弄?不要慌,进群让群友手把手教你<a href="#qq">加入 QQ 群 →</a></p>
+</section>
+
+<section id="qq">
+  <h2 class="reveal">加入 QQ 群</h2>
+  <p class="sub reveal d-1">讨论、组队、宣战,一切从这里开始。</p>
+  <div class="qq reveal d-2">
+    <div style="font-size:15px;color:var(--muted);">4F4C 玩家交流群</div>
+    <div class="q-num">1106510349</div>
+    <p class="hint">复制群号,在 QQ 中搜索并申请加入</p>
+    <a class="btn btn-primary" href="https://qm.qq.com/cgi-bin/qm/qr?k=1106510349" target="_blank" rel="noopener">加入群聊</a>
+  </div>
+</section>
+
+<footer>
+  <p>4F4C · NO RULES SURVIVAL · 无规则,无怜悯</p>
+  <p style="margin-top:6px;">页面内容仅供参考,最终解释权归 4F4C 群管理所有</p>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var bar = document.querySelector('.progress');
+  var hero = document.querySelector('.hero-inner');
+  var hint = document.querySelector('.scroll-hint');
+  var sections = Array.prototype.slice.call(document.querySelectorAll('section[id]'));
+  var links = Array.prototype.slice.call(document.querySelectorAll('nav a[href^="#"]'));
+  var ticking = false;
+
+  function onScroll() {
+    var y = window.scrollY || window.pageYOffset;
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    if (bar) bar.style.width = (h > 0 ? (y / h) * 100 : 0) + '%';
+
+    /* 导航高亮跟随当前区块 */
+    var current = 0;
+    for (var i = 0; i < sections.length; i++) {
+      if (sections[i].getBoundingClientRect().top <= 120) current = i;
+    }
+    for (var j = 0; j < links.length; j++) {
+      links[j].classList.toggle('active', j === current);
+    }
+
+    /* 首屏视差下沉 + 下滑提示淡出 */
+    if (hint) hint.classList.toggle('fade', y > 90);
+    if (!reduce && hero) {
+      hero.style.transform = 'translateY(' + (y * 0.3) + 'px)';
+      hero.style.opacity = Math.max(0.2, 1 - y / (window.innerHeight * 0.85));
+    }
+    ticking = false;
+  }
+  window.addEventListener('scroll', function () {
+    if (!ticking) { window.requestAnimationFrame(onScroll); ticking = true; }
+  }, { passive: true });
+  onScroll();
+
+  /* 滚动显现动画 */
+  function reveal(el) {
+    el.classList.add('visible');
+    setTimeout(function () {
+      el.classList.remove('reveal', 'reveal-left', 'reveal-right', 'reveal-zoom', 'd-1', 'd-2', 'd-3', 'd-4', 'visible');
+    }, 1400);
+  }
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    Array.prototype.forEach.call(els, reveal);
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { reveal(en.target); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    Array.prototype.forEach.call(els, function (el) { io.observe(el); });
+  }
+})();
+</script>
+
+</body>
+</html>
