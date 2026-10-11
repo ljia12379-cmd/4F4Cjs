@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>玩法介绍 · LJC 云服务器</title>
+<meta name="description" content="LJC 云服务器玩法介绍：机械动力（Create 6）自动化产线与铁路物流、生电技术工程，以及领地保护、长期存档与定期活动。服务器地址 mc.ljcyun.xyz:20058。">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:title" content="玩法介绍 · LJC 云服务器">
+<meta property="og:description" content="机械动力 + 生电技术，一张永不重置的地图。地址 mc.ljcyun.xyz:20058，QQ 群 1064599211。">
+<meta property="og:image" content="assets/img/favicon.svg">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>
+  /* 主题引导：在首次绘制前确定主题，避免闪白。默认深色（可切换并记忆） */
+  (function () {
+    var t = "dark";
+    try {
+      var saved = localStorage.getItem("ljc-theme");
+      if (saved === "dark" || saved === "light") t = saved;
+    } catch (e) {}
+    document.documentElement.setAttribute("data-theme", t);
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.setAttribute("content", t === "dark" ? "#000000" : "#ffffff");
+  })();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9.5" y="9.5" width="10" height="10" rx="2.5"/><path d="M14.5 6.5V6a2.5 2.5 0 0 0-2.5-2.5H6.5A2.5 2.5 0 0 0 4 6v5.5A2.5 2.5 0 0 0 6.5 14h.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5 9 17l10.5-10.5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13"/><path d="m12.5 6.5 5.5 5.5-5.5 5.5"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H9.5L4 20V6.5Z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2 5 6v5.4c0 4.2 2.9 7.5 7 9.1 4.1-1.6 7-4.9 7-9.1V6l-7-2.8Z"/><path d="m9 12 2.2 2.2L15.4 10"/></symbol>
+  <symbol id="i-archive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="7.5" ry="3"/><path d="M4.5 6v12c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3V6"/><path d="M4.5 12c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5.5" width="17" height="15" rx="2.5"/><path d="M3.5 10.5h17M8 3.5v4M16 3.5v4"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9.5 6 6 6-6"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-cube" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.6 20.8 7.4v9.2L12 21.4 3.2 16.6V7.4L12 2.6Z"/><path d="M12 12 20.8 7.4M12 12v9.4M12 12 3.2 7.4"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13.4 3 6.5 13.4h4.6L10.6 21l6.9-10.4h-4.6L13.4 3Z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 3.4v2.2M12 18.4v2.2M5 7.6l1.9 1.1M17.1 15.3l1.9 1.1M5 16.4l1.9-1.1M17.1 8.7l1.9-1.1"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.6 19.6c0-3 2.4-5.4 5.4-5.4s5.4 2.4 5.4 5.4"/><path d="M15.8 5.3a3.2 3.2 0 0 1 0 6M17.4 14.5c2 .8 3.4 2.8 3.4 5.1"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v11"/><path d="m8 10.5 4 4 4-4"/><path d="M4.5 17v1.5a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V17"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H19v15H6.5A2.5 2.5 0 0 0 4 20.5v-15Z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H19v3H6.5A2.5 2.5 0 0 1 4 20.5Z"/></symbol>
+</svg>
+
+<header class="nav">
+  <div class="container nav__inner">
+    <a class="nav__brand" href="index.html" aria-label="LJC 云服务器 · 回到首页">
+      <img class="nav__brand-mark" src="assets/img/logo.svg" alt="" width="26" height="26">
+      <span class="nav__brand-text">LJC 云服务器<span>LJCraft</span></span>
+    </a>
+
+    <nav class="nav__links" aria-label="主导航">
+      <a class="nav__link" href="index.html" data-nav-link>首页</a>
+      <a class="nav__link" href="modes.html" data-nav-link>玩法</a>
+      <a class="nav__link" href="join.html" data-nav-link>进服指南</a>
+      <a class="nav__link" href="rules.html" data-nav-link>规则</a>
+      <a class="nav__link" href="faq.html" data-nav-link>问答</a>
+    </nav>
+
+    <div class="nav__actions">
+      <a class="nav-cta nav-cta--ghost" href="join.html">
+        <svg class="btn__icon" aria-hidden="true"><use href="#i-book"/></svg>
+        新手引导
+      </a>
+      <button class="nav-cta nav-cta--primary" type="button"
+              data-copy="mc.ljcyun.xyz:20058" data-copy-label="已复制">
+        <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+        <span>复制地址</span>
+      </button>
+    </div>
+
+    <button class="nav__toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-mobile">
+      <svg aria-hidden="true"><use href="#i-menu"/></svg>
+      <span class="sr-only">打开导航菜单</span>
+    </button>
+  </div>
+
+  <div class="nav__mobile" id="nav-mobile" data-nav-panel data-open="false">
+    <ul>
+      <li><a href="index.html" data-nav-link>首页</a></li>
+      <li><a href="modes.html" data-nav-link>玩法</a></li>
+      <li><a href="join.html" data-nav-link>进服指南</a></li>
+      <li><a href="rules.html" data-nav-link>规则</a></li>
+      <li><a href="faq.html" data-nav-link>问答</a></li>
+    </ul>
+    <div class="nav__actions">
+      <button class="nav-cta nav-cta--primary" type="button"
+              data-copy="mc.ljcyun.xyz:20058" data-copy-label="已复制">
+        <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+        <span>复制服务器地址</span>
+      </button>
+      <button class="nav-cta nav-cta--ghost" type="button"
+              data-copy="1064599211" data-copy-label="已复制">
+        <svg class="btn__icon" aria-hidden="true"><use href="#i-chat"/></svg>
+        <span>复制 QQ 群号</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ── Hero ───────────────────────────────────────────────────────────── -->
+  <section class="hero hero--compact">
+    <div class="mesh" aria-hidden="true">
+      <div class="mesh__canvas"></div>
+      <div class="mesh__fade"></div>
+    </div>
+    <div class="container hero__inner">
+      <span class="eyebrow eyebrow--ink" data-reveal>玩法介绍</span>
+      <h1 class="display-xl hero__title" data-reveal data-reveal-delay="60">两种主玩法，一张不重置的地图。</h1>
+      <p class="lead hero__lead" data-reveal data-reveal-delay="120">
+        左手机械动力，把想法变成会转动的机器；右手生电技术，把产能推到红石的上限。
+        两种玩法共用同一个世界，你的产线可以给全服供货，你的工程也能被别人参观。
+      </p>
+      <div class="cta-row hero__cta" data-reveal data-reveal-delay="180">
+        <button class="btn btn--primary" type="button"
+                data-copy="mc.ljcyun.xyz:20058" data-copy-label="地址已复制">
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+          <span>复制服务器地址</span>
+        </button>
+        <a class="btn btn--secondary" href="#events">
+          看正在进行的活动
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+      <div class="hero__meta" data-reveal data-reveal-delay="220">
+        <span>机械动力 Create 6</span>
+        <span>生电技术</span>
+        <span>1.20.1 Forge</span>
+        <span>永不删档</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 机械动力 ───────────────────────────────────────────────────────── -->
+  <section class="band band--canvas" style="position:relative;overflow:hidden;isolation:isolate">
+    <div class="mesh" aria-hidden="true">
+      <div class="mesh__canvas" style="top:-34%;opacity:.3"></div>
+      <div class="mesh__fade"></div>
+    </div>
+
+    <div class="container" style="position:relative">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">主玩法 · 机械动力</span>
+        <h2 class="display-lg">从一台水车开始，造到整座城市自动运转。</h2>
+        <p class="lead">机械动力把 Minecraft 变成了一套机械工程沙盒：动力要靠传动，产线要讲布局，机器会转、会响、会冒蒸汽。</p>
+      </div>
+
+      <div class="split split--wide-right mb-lg">
+        <div class="split__copy" data-reveal>
+          <h3 class="display-md">你的第一台机器，可以只是一台水车。</h3>
+          <p class="body-md">
+            不需要一开始就搞懂全部内容。先在水边放一台水车，用传动轴把动力接到磨石上，再慢慢把产线延长。
+            服务器里有大量已经跑通的工厂可以参观抄作业，群里也有人愿意手把手教。
+          </p>
+          <ul class="feature-list mt-md">
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>动力系统：水车、风车、蒸汽引擎、齿轮箱与离合器。</span></li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>物流系统：传送带、溜槽、机械臂与打包机。</span></li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>轨道交通：列车、站点与时刻表，让列车自己跑完全程。</span></li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>进阶内容：蒸汽铁路、航空器与自动化工厂流水线。</span></li>
+          </ul>
+        </div>
+
+        <div data-reveal data-reveal-delay="100">
+          <div class="terminal">
+            <div class="terminal__bar" aria-hidden="true">
+              <i class="terminal__dot"></i><i class="terminal__dot"></i><i class="terminal__dot"></i>
+              <span>create · mods</span>
+            </div>
+            <div class="terminal__line"><span class="terminal__k">核心</span><span class="terminal__v">Create 6 系列</span></div>
+            <div class="terminal__line"><span class="terminal__k">铁路</span><span class="terminal__v">蒸汽铁路扩展</span></div>
+            <div class="terminal__line"><span class="terminal__k">航空</span><span class="terminal__v">航空器与飞艇扩展</span></div>
+            <div class="terminal__line"><span class="terminal__k">辅助</span><span class="terminal__v">配方查询 / 地图 / 性能优化</span></div>
+            <div class="terminal__gap"></div>
+            <div class="terminal__line"><span class="terminal__k">服务器</span><span class="terminal__v terminal__v--accent">mc.ljcyun.xyz:20058</span></div>
+            <div class="terminal__line"><span class="terminal__k">整合包</span><span class="terminal__v">QQ 群文件 · 版本与服同步</span></div>
+          </div>
+          <p class="caption mt-md">模组清单以群内最新公告为准。想加自己的模组？先看 <a class="inline-link" href="faq.html#tech">玩法与技术的常见问题</a>。</p>
+        </div>
+      </div>
+
+      <div class="grid grid--3">
+        <article class="card card--lg" data-reveal>
+          <span class="card__icon"><svg aria-hidden="true"><use href="#i-gear"/></svg></span>
+          <h3 class="display-md">动力与传动</h3>
+          <p class="body-md">从水车到蒸汽引擎，学会用齿轮比与离合器控制转速与方向。这是所有机器的地基，也是最好玩的部分。</p>
+          <div class="card__foot"><span class="mono text-mute">POWER &amp; KINETICS</span></div>
+        </article>
+
+        <article class="card card--lg" data-reveal data-reveal-delay="80">
+          <span class="card__icon"><svg aria-hidden="true"><use href="#i-cube"/></svg></span>
+          <h3 class="display-md">铁路与物流</h3>
+          <p class="body-md">铺轨、设站、排时刻表，让列车把矿石从矿区分拣送到主城仓库。跨区运输从此不用自己背箱子。</p>
+          <div class="card__foot"><span class="mono text-mute">RAIL &amp; LOGISTICS</span></div>
+        </article>
+
+        <article class="card card--lg" data-reveal data-reveal-delay="160">
+          <span class="card__icon"><svg aria-hidden="true"><use href="#i-bolt"/></svg></span>
+          <h3 class="display-md">自动化工厂</h3>
+          <p class="body-md">用传送带、机械臂和打包机把原料变成成品。做得好的工厂可以给全服供货，也能成为别人的参观路线。</p>
+          <div class="card__foot"><span class="mono text-mute">FACTORY LINES</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 生电技术 ───────────────────────────────────────────────────────── -->
+  <section class="band band--soft">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">副玩法 · 生电技术</span>
+        <h2 class="display-lg">把红石推到极限，也是一种浪漫。</h2>
+        <p class="lead">服务端为技术型玩家保留了完整的生电环境，并开放了大型工程所需的区块与设施支持。我们不砍机制，只要求把机器建在合适的地方。</p>
+      </div>
+
+      <div class="table-wrap" data-reveal>
+        <table class="data">
+          <caption class="sr-only">常见生电工程与服务器说明</caption>
+          <thead>
+            <tr>
+              <th scope="col">工程类型</th>
+              <th scope="col">用途</th>
+              <th scope="col">服务器说明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>TNT 世界吞噬者</td>
+              <td>为大型建筑或工厂清理大范围区块</td>
+              <td>请在远离他人建筑的指定区域施工，动工前在群里报备坐标。</td>
+            </tr>
+            <tr>
+              <td>高效刷怪塔</td>
+              <td>稳定获取经验与掉落物</td>
+              <td>建议与公共仓库、自动分类系统对接，产出可以共享给全服。</td>
+            </tr>
+            <tr>
+              <td>刷铁机 / 村民工程</td>
+              <td>铁锭、附魔书与交易折扣</td>
+              <td>村民大厅可集中建设，需要运输通道时提前规划路线，避免堵路。</td>
+            </tr>
+            <tr>
+              <td>区块加载器</td>
+              <td>让远距离机器持续运转</td>
+              <td>仅用于必要工程，长期常加载的机器请控制数量，避免影响服务器性能。</td>
+            </tr>
+            <tr>
+              <td>末地与下界工程</td>
+              <td>刷沙、刷石、末影珍珠与鞘翅获取</td>
+              <td>末地与下界资源为全服共用，请不要恶意占据或破坏公共设施。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="grid grid--4 mt-xl">
+        <article class="card card--flush" data-reveal>
+          <div class="card__media">
+            <span class="card__media-label">World Eater</span>
+          </div>
+          <div class="card__body">
+            <h3 class="body-md" style="font-weight:600;color:var(--ink)">TNT 世界吞噬者</h3>
+            <p class="body-sm">大型工程前的土地平整，报备后即可动工。</p>
+          </div>
+        </article>
+
+        <article class="card card--flush" data-reveal data-reveal-delay="60">
+          <div class="card__media">
+            <span class="card__media-label">Mob Farm</span>
+          </div>
+          <div class="card__body">
+            <h3 class="body-md" style="font-weight:600;color:var(--ink)">高效刷怪塔</h3>
+            <p class="body-sm">经验与掉落物稳定产出，可对接公共仓库。</p>
+          </div>
+        </article>
+
+        <article class="card card--flush" data-reveal data-reveal-delay="120">
+          <div class="card__media">
+            <span class="card__media-label">Iron &amp; Trade</span>
+          </div>
+          <div class="card__body">
+            <h3 class="body-md" style="font-weight:600;color:var(--ink)">铁傀儡与村民工程</h3>
+            <p class="body-sm">刷铁机、打折交易大厅与村民运输通道。</p>
+          </div>
+        </article>
+
+        <article class="card card--flush" data-reveal data-reveal-delay="180">
+          <div class="card__media">
+            <span class="card__media-label">Chunk &amp; End</span>
+          </div>
+          <div class="card__body">
+            <h3 class="body-md" style="font-weight:600;color:var(--ink)">区块加载与末地工程</h3>
+            <p class="body-sm">末地祭坛、刷沙机与需要长距离加载的工程。</p>
+          </div>
+        </article>
+      </div>
+      <p class="caption mt-md" data-reveal>图片位置预留：把你们的实机截图放进 <code class="inline">assets/img/</code> 后替换卡片封面即可。</p>
+    </div>
+  </section>
+
+  <!-- ── 生存与保护 ─────────────────────────────────────────────────────── -->
+  <section class="band band--canvas">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">生存与秩序</span>
+        <h2 class="display-lg">安心造，剩下的交给我们。</h2>
+        <p class="lead">能长期玩下去的服务器，靠的不是人多，而是没人能随便拆掉你辛苦盖的东西。</p>
+      </div>
+
+      <div class="grid grid--3">
+        <article class="card card--lg" data-reveal>
+          <span class="card__icon"><svg aria-hidden="true"><use href="#i-shield"/></svg></span>
+          <h3 class="display-md">领地保护</h3>
+          <p class="body-md">圈地之后，陌生人无法破坏、开启箱子或使用你的机器。可以给队友单独授权，权限随时收回。</p>
+          <div class="card__foot"><span class="mono text-mute">LAND CLAIM</span></div>
+        </article>
+
+        <article class="card card--lg" data-reveal data-reveal-delay="80">
+          <span class="card__icon"><svg aria-hidden="true"><use href="#i-users"/></svg></span>
+          <h3 class="display-md">反作弊与日志</h3>
+          <p class="body-md">服务端反作弊持续在线，方块操作留有日志。万一被拆家，管理员可以依据记录回滚到被破坏之前。</p>
+          <div class="card__foot"><span class="mono text-mute">ANTICHEAT + LOGS</span></div>
+        </article>
+
+        <article class="card card--lg" data-reveal data-reveal-delay="160">
+          <span class="card__icon"><svg aria-hidden="true"><use href="#i-archive"/></svg></span>
+          <h3 class="display-md">长期存档</h3>
+          <p class="body-md">世界不会因为版本更新或赛季更换被重置。你三年前盖的房子，今天回去还在原地。</p>
+          <div class="card__foot"><span class="mono text-mute">PERSISTENT WORLD</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 活动 ───────────────────────────────────────────────────────────── -->
+  <section class="band band--dark" id="events">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">活动与比赛</span>
+        <h2 class="display-lg">每个月，都有一点新东西可做。</h2>
+        <p class="lead">活动全部在 QQ 群 1064599211 内报名与公示，奖励发放到游戏内仓库，不涉及任何充值。</p>
+      </div>
+
+      <div class="grid grid--2">
+        <article class="card card--dark" data-reveal>
+          <div class="card__head">
+            <h3 class="display-md">月度主题建造</h3>
+            <span class="badge">MONTHLY</span>
+          </div>
+          <p class="body-md">每月一个主题，从「蒸汽车站」到「悬空花园」，限时提交作品，由全服投票评选。</p>
+          <ul class="feature-list mt-md">
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>作品集中展示在活动世界，结束后并入主城</span></li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>获奖者获得建筑称号与装饰材料包</span></li>
+          </ul>
+        </article>
+
+        <article class="card card--dark" data-reveal data-reveal-delay="80">
+          <div class="card__head">
+            <h3 class="display-md">机械作品评选</h3>
+            <span class="badge">CREATE</span>
+          </div>
+          <p class="body-md">比谁的机器更聪明：全自动农场、跨城列车线、能自动分拣的物流中心，都可以报名参评。</p>
+          <ul class="feature-list mt-md">
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>评委由管理组与上届获奖玩家组成</span></li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>优秀作品会被接入主城参观路线</span></li>
+          </ul>
+        </article>
+
+        <article class="card card--dark" data-reveal data-reveal-delay="120">
+          <div class="card__head">
+            <h3 class="display-md">生电挑战赛</h3>
+            <span class="badge">TECHNICAL</span>
+          </div>
+          <p class="body-md">限时限资源的工程挑战，例如「用最少材料做出每小时 X 产量的刷铁机」。</p>
+          <ul class="feature-list mt-md">
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>统一提供活动服环境，不干扰主世界</span></li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>方案会在群内公开复盘，一起学</span></li>
+          </ul>
+        </article>
+
+        <article class="card card--dark" data-reveal data-reveal-delay="160">
+          <div class="card__head">
+            <h3 class="display-md">服务器年鉴</h3>
+            <span class="badge">ARCHIVE</span>
+          </div>
+          <p class="body-md">每个月的优秀建筑与机器都会被记录进服务器年鉴，附作者 ID 与坐标，随时可以回去参观。</p>
+          <ul class="feature-list mt-md">
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>年鉴永久保留，不随活动结束清空</span></li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>新玩家可以从年鉴里找灵感</span></li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="cta-row mt-xl" data-reveal>
+        <button class="btn btn--on-dark" type="button"
+                data-copy="1064599211" data-copy-label="群号已复制">
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+          <span>复制群号，报名活动</span>
+        </button>
+        <a class="btn btn--ghost-dark" href="rules.html">
+          活动也受服务器规则约束
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 玩法边界 ───────────────────────────────────────────────────────── -->
+  <section class="band band--soft">
+    <div class="container container--narrow">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">玩法边界</span>
+        <h2 class="display-lg">自由，但不影响别人。</h2>
+      </div>
+
+      <div class="grid grid--2">
+        <div class="card" data-reveal>
+          <h3 class="display-sm">可以做的事</h3>
+          <ul class="feature-list mt-md">
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>自由建造、自由发展，随意选择机械动力或生电路线</span></li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>搭建大型机器，只要提前报备并远离他人建筑</span></li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>和队友共享领地权限，一起建设主城</span></li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>申请把自己的作品接入参观路线</span></li>
+          </ul>
+        </div>
+
+        <div class="card" data-reveal data-reveal-delay="80">
+          <h3 class="display-sm">请不要做的事</h3>
+          <ul class="feature-list mt-md">
+            <li><svg aria-hidden="true"><use href="#i-shield"/></svg><span>使用作弊客户端、漏洞复制物品或破坏经济公平</span></li>
+            <li><svg aria-hidden="true"><use href="#i-shield"/></svg><span>在他人建筑附近建造 TNT 世吞等破坏性机器</span></li>
+            <li><svg aria-hidden="true"><use href="#i-shield"/></svg><span>用超量常加载机器拖慢服务器</span></li>
+            <li><svg aria-hidden="true"><use href="#i-shield"/></svg><span>偷窃、恶意拆家与人身攻击</span></li>
+          </ul>
+        </div>
+      </div>
+      <p class="caption mt-lg" data-reveal>完整条款见 <a class="inline-link" href="rules.html">服务器规则</a>，处罚梯度与申诉方式也在那一页。</p>
+    </div>
+  </section>
+
+  <!-- ── CTA ────────────────────────────────────────────────────────────── -->
+  <section class="cta-band">
+    <div class="mesh" aria-hidden="true">
+      <div class="mesh__canvas"></div>
+      <div class="mesh__fade mesh__fade--up"></div>
+    </div>
+    <div class="container cta-band__inner">
+      <span class="eyebrow" data-reveal>选一条路线开始</span>
+      <h2 class="display-lg" data-reveal data-reveal-delay="60" style="max-width:18em">齿轮已经上油，就等你按下开关。</h2>
+      <p class="lead" data-reveal data-reveal-delay="120" style="max-width:34em">mc.ljcyun.xyz:20058 · QQ 群 1064599211</p>
+      <div class="cta-row" style="justify-content:center" data-reveal data-reveal-delay="180">
+        <button class="btn btn--primary" type="button"
+                data-copy="mc.ljcyun.xyz:20058" data-copy-label="地址已复制">
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+          <span>复制服务器地址</span>
+        </button>
+        <a class="btn btn--secondary" href="join.html">
+          看进服指南
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__col footer__brand">
+        <div class="footer__brand-mark">
+          <img src="assets/img/logo.svg" alt="" width="26" height="26">
+          LJC 云服务器
+        </div>
+        <p class="body-sm">以机械动力与生电技术为核心的中文 Minecraft Java 服务器。永不删档，长期在线。</p>
+        <p class="mono text-mute">mc.ljcyun.xyz:20058</p>
+        <p class="mono text-mute">QQ 群 1064599211</p>
+      </div>
+
+      <div class="footer__col">
+        <h4>服务器</h4>
+        <ul>
+          <li><a href="index.html">首页</a></li>
+          <li><a href="modes.html">玩法介绍</a></li>
+          <li><a href="rules.html">服务器规则</a></li>
+          <li><a href="faq.html">常见问题</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4>开始游戏</h4>
+        <ul>
+          <li><a href="join.html">进服指南</a></li>
+          <li><a href="join.html#pack">整合包下载</a></li>
+          <li><a href="join.html#skin">皮肤站说明</a></li>
+          <li><a href="join.html#errors">报错排查</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4>社区</h4>
+        <ul>
+          <li><a href="faq.html#contact">加入 QQ 群</a></li>
+          <li><a href="rules.html#appeal">封禁申诉</a></li>
+          <li><a href="modes.html#events">活动与比赛</a></li>
+          <li><a href="faq.html#staff">管理团队</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© <span data-year>2025</span> LJC 云服务器 · 保留所有权利</span>
+      <span>本站为玩家自建服务器站点，与 Mojang Studios 及 Microsoft 无隶属关系。</span>
+      <span class="mono">mc.ljcyun.xyz:20058</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

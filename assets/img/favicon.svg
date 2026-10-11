@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="LJC">
+  <title>LJC 云服务器</title>
+  <rect width="32" height="32" rx="7" fill="#171717"/>
+  <path d="M16 5.2 26 11v10l-10 5.8L6 21V11l10-5.8Z" fill="none" stroke="#ffffff" stroke-opacity=".35" stroke-width="1.3" stroke-linejoin="round"/>
+  <path d="M16 5.2 26 11l-10 5.8L6 11l10-5.8Z" fill="#ffffff"/>
+  <path d="M6 11l10 5.8v10L6 21v-10Z" fill="#ffffff" fill-opacity=".55"/>
+  <path d="M26 11l-10 5.8v10L26 21v-10Z" fill="#ffffff" fill-opacity=".28"/>
+</svg>

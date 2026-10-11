@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>进服指南 · LJC 云服务器</title>
+<meta name="description" content="LJC 云服务器进服指南：安装 Java、导入机械动力整合包、注册皮肤站、添加服务器 mc.ljcyun.xyz:20058，以及常见报错的排查方法。">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:title" content="进服指南 · LJC 云服务器">
+<meta property="og:description" content="三步进服，五分钟开玩。地址 mc.ljcyun.xyz:20058，QQ 群 1064599211。">
+<meta property="og:image" content="assets/img/favicon.svg">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>
+  /* 主题引导：在首次绘制前确定主题，避免闪白。默认深色（可切换并记忆） */
+  (function () {
+    var t = "dark";
+    try {
+      var saved = localStorage.getItem("ljc-theme");
+      if (saved === "dark" || saved === "light") t = saved;
+    } catch (e) {}
+    document.documentElement.setAttribute("data-theme", t);
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.setAttribute("content", t === "dark" ? "#000000" : "#ffffff");
+  })();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9.5" y="9.5" width="10" height="10" rx="2.5"/><path d="M14.5 6.5V6a2.5 2.5 0 0 0-2.5-2.5H6.5A2.5 2.5 0 0 0 4 6v5.5A2.5 2.5 0 0 0 6.5 14h.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5 9 17l10.5-10.5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13"/><path d="m12.5 6.5 5.5 5.5-5.5 5.5"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H9.5L4 20V6.5Z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2 5 6v5.4c0 4.2 2.9 7.5 7 9.1 4.1-1.6 7-4.9 7-9.1V6l-7-2.8Z"/><path d="m9 12 2.2 2.2L15.4 10"/></symbol>
+  <symbol id="i-archive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="7.5" ry="3"/><path d="M4.5 6v12c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3V6"/><path d="M4.5 12c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5.5" width="17" height="15" rx="2.5"/><path d="M3.5 10.5h17M8 3.5v4M16 3.5v4"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9.5 6 6 6-6"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-cube" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.6 20.8 7.4v9.2L12 21.4 3.2 16.6V7.4L12 2.6Z"/><path d="M12 12 20.8 7.4M12 12v9.4M12 12 3.2 7.4"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13.4 3 6.5 13.4h4.6L10.6 21l6.9-10.4h-4.6L13.4 3Z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 3.4v2.2M12 18.4v2.2M5 7.6l1.9 1.1M17.1 15.3l1.9 1.1M5 16.4l1.9-1.1M17.1 8.7l1.9-1.1"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.6 19.6c0-3 2.4-5.4 5.4-5.4s5.4 2.4 5.4 5.4"/><path d="M15.8 5.3a3.2 3.2 0 0 1 0 6M17.4 14.5c2 .8 3.4 2.8 3.4 5.1"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v11"/><path d="m8 10.5 4 4 4-4"/><path d="M4.5 17v1.5a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V17"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H19v15H6.5A2.5 2.5 0 0 0 4 20.5v-15Z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H19v3H6.5A2.5 2.5 0 0 1 4 20.5Z"/></symbol>
+</svg>
+
+<header class="nav">
+  <div class="container nav__inner">
+    <a class="nav__brand" href="index.html" aria-label="LJC 云服务器 · 回到首页">
+      <img class="nav__brand-mark" src="assets/img/logo.svg" alt="" width="26" height="26">
+      <span class="nav__brand-text">LJC 云服务器<span>LJCraft</span></span>
+    </a>
+
+    <nav class="nav__links" aria-label="主导航">
+      <a class="nav__link" href="index.html" data-nav-link>首页</a>
+      <a class="nav__link" href="modes.html" data-nav-link>玩法</a>
+      <a class="nav__link" href="join.html" data-nav-link>进服指南</a>
+      <a class="nav__link" href="rules.html" data-nav-link>规则</a>
+      <a class="nav__link" href="faq.html" data-nav-link>问答</a>
+    </nav>
+
+    <div class="nav__actions">
+      <a class="nav-cta nav-cta--ghost" href="modes.html">
+        <svg class="btn__icon" aria-hidden="true"><use href="#i-cube"/></svg>
+        玩法介绍
+      </a>
+      <button class="nav-cta nav-cta--primary" type="button"
+              data-copy="mc.ljcyun.xyz:20058" data-copy-label="已复制">
+        <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+        <span>复制地址</span>
+      </button>
+    </div>
+
+    <button class="nav__toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-mobile">
+      <svg aria-hidden="true"><use href="#i-menu"/></svg>
+      <span class="sr-only">打开导航菜单</span>
+    </button>
+  </div>
+
+  <div class="nav__mobile" id="nav-mobile" data-nav-panel data-open="false">
+    <ul>
+      <li><a href="index.html" data-nav-link>首页</a></li>
+      <li><a href="modes.html" data-nav-link>玩法</a></li>
+      <li><a href="join.html" data-nav-link>进服指南</a></li>
+      <li><a href="rules.html" data-nav-link>规则</a></li>
+      <li><a href="faq.html" data-nav-link>问答</a></li>
+    </ul>
+    <div class="nav__actions">
+      <button class="nav-cta nav-cta--primary" type="button"
+              data-copy="mc.ljcyun.xyz:20058" data-copy-label="已复制">
+        <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+        <span>复制服务器地址</span>
+      </button>
+      <button class="nav-cta nav-cta--ghost" type="button"
+              data-copy="1064599211" data-copy-label="已复制">
+        <svg class="btn__icon" aria-hidden="true"><use href="#i-chat"/></svg>
+        <span>复制 QQ 群号</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ── Hero ───────────────────────────────────────────────────────────── -->
+  <section class="hero hero--compact">
+    <div class="mesh" aria-hidden="true">
+      <div class="mesh__canvas"></div>
+      <div class="mesh__fade"></div>
+    </div>
+    <div class="container hero__inner">
+      <span class="eyebrow eyebrow--ink" data-reveal>进服指南</span>
+      <h1 class="display-xl hero__title" data-reveal data-reveal-delay="60">从下载到进服，跟着做就行。</h1>
+      <p class="lead hero__lead" data-reveal data-reveal-delay="120">
+        整台流程大约五分钟：装好 Java、导入整合包、把 <code class="inline">mc.ljcyun.xyz:20058</code> 填进多人游戏。
+        全程不需要正版账号。
+      </p>
+      <div class="cta-row hero__cta" data-reveal data-reveal-delay="180">
+        <button class="btn btn--primary" type="button"
+                data-copy="mc.ljcyun.xyz:20058" data-copy-label="地址已复制">
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+          <span>复制服务器地址</span>
+        </button>
+        <a class="btn btn--secondary" href="#pack">
+          先拿整合包
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+      <div class="hero__meta" data-reveal data-reveal-delay="220">
+        <span>Java 21</span>
+        <span>1.20.1 · Forge</span>
+        <span>机械动力整合包</span>
+        <span>支持离线登录</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 准备清单 ───────────────────────────────────────────────────────── -->
+  <section class="band band--soft" style="padding-top:0">
+    <div class="container">
+      <div class="status" data-reveal>
+        <div class="status__cell">
+          <span class="status__label">需要准备 · 01</span>
+          <span class="status__value">Java 21</span>
+          <span class="caption">机械动力整合包需要 Java 21，Java 8/17 会直接启动失败。</span>
+        </div>
+        <div class="status__cell">
+          <span class="status__label">需要准备 · 02</span>
+          <span class="status__value">启动器</span>
+          <span class="caption">支持导入整合包 zip 的启动器即可，群文件里有推荐版本。</span>
+        </div>
+        <div class="status__cell">
+          <span class="status__label">需要准备 · 03</span>
+          <span class="status__value">LJC 整合包</span>
+          <span class="caption">请用群文件的整合包，模组版本一致才不会被服务端踢出。</span>
+        </div>
+        <div class="status__cell">
+          <span class="status__label">需要准备 · 04</span>
+          <span class="status__value">内存 <small>建议 6 GB 以上</small></span>
+          <span class="caption">机械动力整合包建议分配 6–8 GB 内存，画面更稳。</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 步骤 ───────────────────────────────────────────────────────────── -->
+  <section class="band band--canvas">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">操作步骤</span>
+        <h2 class="display-lg">四步走完，就能看到出生点。</h2>
+        <p class="lead">下面每一步都可以单独排查：卡在哪一步，就直接在群里报这一步的现象。</p>
+      </div>
+
+      <div class="steps">
+        <div class="step" data-reveal>
+          <h3 class="step__title">安装 Java 21</h3>
+          <div class="step__body">
+            <p>去 Java 官网或群文件下载 Java 21（64 位）并安装。安装完成后，老版本 Java 不必卸载，启动器里选择 Java 21 的路径即可。</p>
+            <pre class="code-block"># 检查是否装好（Windows 打开 PowerShell 输入）
+java -version
+# 正常输出示例：openjdk version "21.0.x"</pre>
+          </div>
+        </div>
+
+        <div class="step" data-reveal>
+          <h3 class="step__title">下载并导入 LJC 整合包</h3>
+          <div class="step__body">
+            <p>在 QQ 群文件里下载最新版整合包，然后在启动器中选择「导入整合包 / 从压缩包安装」，选中刚下载的 zip 文件，等待启动器解压完成。</p>
+            <p><a class="inline-link" href="#pack">跳到整合包下载说明</a></p>
+          </div>
+        </div>
+
+        <div class="step" data-reveal>
+          <h3 class="step__title">注册皮肤站（可选但推荐）</h3>
+          <div class="step__body">
+            <p>服务器支持离线登录，不强制正版。注册皮肤站并绑定你的游戏 ID，就能在游戏里显示自己上传的皮肤。</p>
+            <p><a class="inline-link" href="#skin">跳到皮肤站说明</a></p>
+          </div>
+        </div>
+
+        <div class="step" data-reveal>
+          <h3 class="step__title">添加服务器并连接</h3>
+          <div class="step__body">
+            <p>启动游戏 → 多人游戏 → 添加服务器，名称随意填，地址填下面这一串，然后双击进入。</p>
+            <pre class="code-block">服务器地址  mc.ljcyun.xyz:20058
+
+# 启动器日志里看到这一行，说明客户端已经准备好了
+[Client thread/INFO]: Done (12.345s)! For help, type "help"</pre>
+            <button class="btn btn--primary" type="button"
+                    data-copy="mc.ljcyun.xyz:20058" data-copy-label="地址已复制" style="margin-top:4px">
+              <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+              <span>复制服务器地址</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 整合包下载 ─────────────────────────────────────────────────────── -->
+  <section class="band band--soft" id="pack">
+    <div class="container">
+      <div class="split split--wide-right">
+        <div class="split__copy" data-reveal>
+          <span class="eyebrow">整合包</span>
+          <h2 class="display-lg">整合包只在群文件发布。</h2>
+          <p class="body-md">
+            这样做是为了保证所有玩家的模组版本完全一致——版本错一个数字，进服就会被踢。
+            群文件里会持续更新最新版，更新后群公告会同步说明。
+          </p>
+          <ul class="feature-list mt-md">
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>核心为 <strong>机械动力（Create 6 系列）</strong>，含列车、航空学等常用扩展。</span></li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>附带配方查询、地图与小地图等基础辅助模组，开箱即用。</span></li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg><span>每次大版本更新都会保留存档兼容，不需要重开世界。</span></li>
+          </ul>
+          <div class="cta-row mt-md">
+            <button class="btn btn--primary" type="button"
+                    data-copy="1064599211" data-copy-label="群号已复制">
+              <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+              <span>复制群号，进群下载</span>
+            </button>
+            <a class="btn btn--secondary" href="faq.html#tech">
+              装模组常见问题
+              <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div data-reveal data-reveal-delay="100">
+          <div class="card card--lg" style="gap:var(--sp-md)">
+            <div class="card__head">
+              <div>
+                <span class="eyebrow">当前版本</span>
+                <p class="display-md">LJC Create Pack</p>
+              </div>
+              <span class="badge badge--soft-blue">稳定版</span>
+            </div>
+            <div class="terminal">
+              <div class="terminal__bar" aria-hidden="true">
+                <i class="terminal__dot"></i><i class="terminal__dot"></i><i class="terminal__dot"></i>
+                <span>pack.json</span>
+              </div>
+              <div class="terminal__line"><span class="terminal__k">游戏版本</span><span class="terminal__v">1.20.1</span></div>
+              <div class="terminal__line"><span class="terminal__k">加载器</span><span class="terminal__v">Forge</span></div>
+              <div class="terminal__line"><span class="terminal__k">Java</span><span class="terminal__v">21</span></div>
+              <div class="terminal__line"><span class="terminal__k">核心模组</span><span class="terminal__v">Create 6 系列</span></div>
+              <div class="terminal__line"><span class="terminal__k">获取方式</span><span class="terminal__v terminal__v--accent">QQ 群 1064599211 · 群文件</span></div>
+            </div>
+            <p class="caption">模组清单与版本号以群内最新公告为准；如果你自己加了模组进不去，把 <code class="inline">mods</code> 文件夹恢复成整合包原样再试。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 皮肤站 ─────────────────────────────────────────────────────────── -->
+  <section class="band band--canvas" id="skin">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">账号与皮肤</span>
+        <h2 class="display-lg">不用正版，也能有自己的皮肤。</h2>
+        <p class="lead">服务器采用离线登录，并自建了皮肤站。注册一次，之后每次进服都会自动显示你的皮肤与披风（如有）。</p>
+      </div>
+
+      <div class="grid grid--3">
+        <article class="card card--lg" data-reveal>
+          <span class="card__icon"><svg aria-hidden="true"><use href="#i-users"/></svg></span>
+          <h3 class="display-md">注册皮肤站</h3>
+          <p class="body-md">皮肤站地址与注册流程见 QQ 群公告。注册时使用的游戏 ID，必须和你启动器里的离线 ID 完全一致。</p>
+          <div class="card__foot"><span class="mono text-mute">STEP 01</span></div>
+        </article>
+
+        <article class="card card--lg" data-reveal data-reveal-delay="80">
+          <span class="card__icon"><svg aria-hidden="true"><use href="#i-shield"/></svg></span>
+          <h3 class="display-md">登录方式</h3>
+          <p class="body-md">在多人游戏界面选择「离线登录」，或按群公告把皮肤站地址配置为验证服务器，保持 ID 一致即可。</p>
+          <div class="card__foot"><span class="mono text-mute">STEP 02</span></div>
+        </article>
+
+        <article class="card card--lg" data-reveal data-reveal-delay="160">
+          <span class="card__icon"><svg aria-hidden="true"><use href="#i-check"/></svg></span>
+          <h3 class="display-md">皮肤不显示？</h3>
+          <p class="body-md">先确认 ID 大小写完全一致，再重启一次客户端。仍不显示就把 ID 和截图发到群里，管理可以帮忙查。</p>
+          <div class="card__foot"><span class="mono text-mute">STEP 03</span></div>
+        </article>
+      </div>
+
+      <div class="card card--soft mt-lg" data-reveal style="gap:6px">
+        <span class="eyebrow">安全提醒</span>
+        <p class="body-sm">
+          皮肤站密码请勿与其它网站重复。管理组<b>不会</b>以任何理由向你索要密码、邮箱验证码或正版账号信息；
+          任何私聊要账号的，都是骗子，请立刻截图发到群里。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 报错排查 ───────────────────────────────────────────────────────── -->
+  <section class="band band--soft" id="errors">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">报错排查</span>
+        <h2 class="display-lg">进不去？先对照这张表。</h2>
+        <p class="lead">90% 的进服问题都能在这里找到原因。还是搞不定，就把启动器日志最后 30 行发到群里。</p>
+      </div>
+
+      <div class="table-wrap" data-reveal>
+        <table class="data">
+          <caption class="sr-only">常见进服报错与处理方法</caption>
+          <thead>
+            <tr>
+              <th scope="col">现象 / 报错</th>
+              <th scope="col">常见原因</th>
+              <th scope="col">处理方法</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>启动器报 Java 版本错误</td>
+              <td>使用了 Java 8 / 17</td>
+              <td>安装 Java 21，并在启动器设置里手动指定 Java 21 的可执行文件路径。</td>
+            </tr>
+            <tr>
+              <td>登录时提示 <code>Invalid session</code></td>
+              <td>选了正版登录，但账号未登录或非正版</td>
+              <td>改成「离线登录 / 第三方登录」，并确认 ID 与皮肤站一致。</td>
+            </tr>
+            <tr>
+              <td>连接超时 / 无法连接</td>
+              <td>地址填错、网络波动、服务器重启中</td>
+              <td>核对地址为 <code>mc.ljcyun.xyz:20058</code>（冒号是英文半角），稍等几分钟再试，或到群里问一句。</td>
+            </tr>
+            <tr>
+              <td>进服秒退，提示模组不匹配</td>
+              <td>自己装了额外模组或用了旧版整合包</td>
+              <td>删掉自装模组，重新从群文件下载最新整合包导入。</td>
+            </tr>
+            <tr>
+              <td>加载世界时卡住 / 内存溢出</td>
+              <td>分配内存过低</td>
+              <td>把启动器分配内存调到 6–8 GB，并关闭占内存的后台程序。</td>
+            </tr>
+            <tr>
+              <td>能进服但很卡、方块回弹</td>
+              <td>本地网络延迟高</td>
+              <td>关闭后台下载与加速器（部分加速器会干扰），换个时段再试；持续异常请反馈到群里。</td>
+            </tr>
+            <tr>
+              <td>皮肤 / 披风不显示</td>
+              <td>ID 大小写不一致、未绑定皮肤站</td>
+              <td>确认 ID 完全一致并重启客户端，仍未解决把 ID 发到群里。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="caption mt-md" data-reveal>注意：LJC 云服务器是 <b>Java 版</b>服务器，手机基岩版（Bedrock）客户端无法直接加入。</p>
+    </div>
+  </section>
+
+  <!-- ── CTA ────────────────────────────────────────────────────────────── -->
+  <section class="cta-band">
+    <div class="mesh" aria-hidden="true">
+      <div class="mesh__canvas"></div>
+      <div class="mesh__fade mesh__fade--up"></div>
+    </div>
+    <div class="container cta-band__inner">
+      <span class="eyebrow" data-reveal>准备好了就出发</span>
+      <h2 class="display-lg" data-reveal data-reveal-delay="60" style="max-width:18em">出生点的第一台水车，等你来造。</h2>
+      <p class="lead" data-reveal data-reveal-delay="120" style="max-width:34em">mc.ljcyun.xyz:20058 · QQ 群 1064599211</p>
+      <div class="cta-row" style="justify-content:center" data-reveal data-reveal-delay="180">
+        <button class="btn btn--primary" type="button"
+                data-copy="mc.ljcyun.xyz:20058" data-copy-label="地址已复制">
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+          <span>复制服务器地址</span>
+        </button>
+        <a class="btn btn--secondary" href="rules.html">
+          进服前看一眼规则
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__col footer__brand">
+        <div class="footer__brand-mark">
+          <img src="assets/img/logo.svg" alt="" width="26" height="26">
+          LJC 云服务器
+        </div>
+        <p class="body-sm">以机械动力与生电技术为核心的中文 Minecraft Java 服务器。永不删档，长期在线。</p>
+        <p class="mono text-mute">mc.ljcyun.xyz:20058</p>
+        <p class="mono text-mute">QQ 群 1064599211</p>
+      </div>
+
+      <div class="footer__col">
+        <h4>服务器</h4>
+        <ul>
+          <li><a href="index.html">首页</a></li>
+          <li><a href="modes.html">玩法介绍</a></li>
+          <li><a href="rules.html">服务器规则</a></li>
+          <li><a href="faq.html">常见问题</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4>开始游戏</h4>
+        <ul>
+          <li><a href="join.html">进服指南</a></li>
+          <li><a href="join.html#pack">整合包下载</a></li>
+          <li><a href="join.html#skin">皮肤站说明</a></li>
+          <li><a href="join.html#errors">报错排查</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4>社区</h4>
+        <ul>
+          <li><a href="faq.html#contact">加入 QQ 群</a></li>
+          <li><a href="rules.html#appeal">封禁申诉</a></li>
+          <li><a href="modes.html#events">活动与比赛</a></li>
+          <li><a href="faq.html#staff">管理团队</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© <span data-year>2025</span> LJC 云服务器 · 保留所有权利</span>
+      <span>本站为玩家自建服务器站点，与 Mojang Studios 及 Microsoft 无隶属关系。</span>
+      <span class="mono">mc.ljcyun.xyz:20058</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

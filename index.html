@@ -2,408 +2,584 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>document.documentElement.className += ' js';</script>
-<title>4F4C - 无规则生存服务器</title>
-<meta name="description" content="4F4C,一个和 2b2t、3c3u 一样的无规则 MC 服务器。没有规则,只有生存。">
-<style>
-  :root {
-    --bg: #ffffff;
-    --bg2: #f3f7fc;
-    --line: #dfe8f2;
-    --text: #23304a;
-    --muted: #6b7a93;
-    --accent: #1e88e5;
-    --accent2: #2196f3;
-    --grad: linear-gradient(135deg, #1e88e5, #42a5f5);
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  /* 顶部滚动进度条 */
-  .progress {
-    position: fixed; top: 0; left: 0; z-index: 60;
-    height: 3px; width: 0;
-    background: var(--grad);
-  }
-
-  /* 滚动显现动画 */
-  .reveal {
-    transition: opacity .7s ease, transform .7s cubic-bezier(.22,.61,.36,1);
-    will-change: opacity, transform;
-  }
-  .js .reveal { opacity: 0; transform: translateY(40px); }
-  .js .reveal-left { transform: translateX(-48px); }
-  .js .reveal-right { transform: translateX(48px); }
-  .js .reveal-zoom { transform: scale(.92); }
-  .js .reveal.visible { opacity: 1; transform: none; }
-  .d-1 { transition-delay: .12s; }
-  .d-2 { transition-delay: .24s; }
-  .d-3 { transition-delay: .36s; }
-  .d-4 { transition-delay: .48s; }
-
-  @media (prefers-reduced-motion: reduce) {
-    .js .reveal, .js .reveal-left, .js .reveal-right, .js .reveal-zoom {
-      opacity: 1; transform: none; transition: none;
-    }
-    .mouse::after { animation: none; }
-  }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.7;
-  }
-  a { color: inherit; text-decoration: none; }
-
-  /* 导航 */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 4vw; height: 60px;
-    background: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--line);
-  }
-  .logo { font-weight: 800; letter-spacing: 1px; font-size: 18px; color: var(--text); }
-  .logo span { color: var(--accent); }
-  nav ul { display: flex; gap: 28px; list-style: none; }
-  nav a { color: var(--muted); font-size: 14px; transition: color .2s; }
-  nav a:hover, nav a.active { color: var(--accent); }
-
-  /* 首屏 */
-  header {
-    min-height: 100vh;
-    display: flex; flex-direction: column;
-    justify-content: center; align-items: center;
-    text-align: center; padding: 100px 5vw 60px;
-    position: relative;
-    background:
-      radial-gradient(ellipse at 20% 20%, rgba(33, 150, 243, 0.10), transparent 50%),
-      radial-gradient(ellipse at 80% 70%, rgba(33, 150, 243, 0.07), transparent 50%),
-      var(--bg);
-  }
-  header::after {
-    content: ""; position: absolute; inset: auto 0 0 0; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--line), transparent);
-  }
-  .hero-inner { position: relative; }
-
-  /* 下滑提示 */
-  .scroll-hint {
-    position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%);
-    display: flex; flex-direction: column; align-items: center; gap: 10px;
-    color: var(--muted); font-size: 12px; letter-spacing: 3px;
-    transition: opacity .4s;
-  }
-  .scroll-hint.fade { opacity: 0; }
-  .mouse {
-    width: 24px; height: 38px; border: 2px solid var(--muted);
-    border-radius: 14px; position: relative;
-  }
-  .mouse::after {
-    content: ""; position: absolute; top: 7px; left: 50%;
-    width: 4px; height: 8px; margin-left: -2px; border-radius: 2px;
-    background: var(--accent);
-    animation: wheel 1.6s ease-in-out infinite;
-  }
-  @keyframes wheel {
-    0% { opacity: 1; transform: translateY(0); }
-    70% { opacity: 0; transform: translateY(12px); }
-    100% { opacity: 0; transform: translateY(12px); }
-  }
-  .badge {
-    display: inline-block; padding: 5px 14px; margin-bottom: 24px;
-    font-size: 13px; letter-spacing: 2px; color: var(--accent);
-    border: 1px solid rgba(33, 150, 243, 0.4);
-    border-radius: 999px; background: rgba(33, 150, 243, 0.07);
-  }
-  h1 {
-    font-size: clamp(40px, 9vw, 88px);
-    font-weight: 900; letter-spacing: 2px; line-height: 1.1;
-  }
-  h1 .dot { color: var(--accent); }
-  .tagline {
-    margin-top: 22px; font-size: clamp(15px, 2.4vw, 19px);
-    color: var(--muted); max-width: 640px;
-  }
-  .cta { margin-top: 44px; display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; }
-  .btn {
-    display: inline-block; padding: 14px 34px; font-size: 15px; font-weight: 600;
-    border-radius: 8px; transition: transform .15s, box-shadow .15s;
-    border: 1px solid var(--line);
-  }
-  .btn:hover { transform: translateY(-2px); }
-  .btn-primary {
-    background: var(--grad); color: #fff; border-color: transparent;
-    box-shadow: 0 6px 24px rgba(33, 150, 243, 0.35);
-  }
-  .btn-primary:hover { box-shadow: 0 10px 32px rgba(33, 150, 243, 0.5); }
-  .btn-ghost { color: var(--text); background: var(--bg); }
-  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
-
-  /* 区块通用 */
-  section { padding: 90px 5vw; max-width: 1080px; margin: 0 auto; }
-  h2 {
-    font-size: clamp(26px, 4vw, 34px); font-weight: 800;
-    display: flex; align-items: center; gap: 14px; margin-bottom: 14px;
-  }
-  h2::before {
-    content: ""; width: 6px; height: 30px; border-radius: 3px; background: var(--grad);
-  }
-  .sub { color: var(--muted); margin-bottom: 44px; font-size: 15px; }
-
-  /* 介绍卡片 */
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
-  .card {
-    background: var(--bg2); border: 1px solid var(--line);
-    border-radius: 12px; padding: 26px 24px;
-    transition: border-color .2s, transform .2s, box-shadow .2s;
-  }
-  .card:hover {
-    border-color: var(--accent); transform: translateY(-3px);
-    box-shadow: 0 10px 28px rgba(33, 150, 243, 0.12);
-  }
-  .card h3 { font-size: 17px; margin-bottom: 10px; }
-  .card h3 .icon { margin-right: 8px; }
-  .card p { font-size: 14px; color: var(--muted); }
-
-  /* 下载 */
-  .dl-box {
-    background: var(--bg2); border: 1px solid var(--line);
-    border-radius: 12px; padding: 34px 30px; display: flex;
-    align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
-  }
-  .dl-box h3 { font-size: 20px; }
-  .dl-box p { color: var(--muted); font-size: 14px; margin-top: 6px; }
-  .dl-info { font-size: 13px; color: var(--muted); margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
-  .dl-info span { border: 1px solid var(--line); padding: 3px 10px; border-radius: 999px; background: var(--bg); color: var(--text); }
-  .dl-tip { display: inline-block; margin-top: 10px; font-size: 13px; color: var(--accent); }
-  .dl-tip:hover { text-decoration: underline; }
-
-  /* 登录教程 */
-  .login-box { display: flex; flex-direction: column; gap: 16px; }
-  .login-step {
-    background: var(--bg2); border: 1px solid var(--line); border-radius: 12px;
-    padding: 22px 24px; display: flex; gap: 18px; align-items: flex-start;
-  }
-  .login-step:hover { border-color: var(--accent); }
-  .login-step > span {
-    flex: none; width: 34px; height: 34px; border-radius: 50%;
-    background: var(--grad); color: #fff; font-weight: 800;
-    display: flex; align-items: center; justify-content: center; font-size: 15px;
-  }
-  .login-step h3 { font-size: 16px; margin-bottom: 4px; }
-  .login-step p { font-size: 14px; color: var(--muted); }
-  .login-step a { color: var(--accent); }
-  .login-help {
-    margin-top: 20px; text-align: center; color: var(--muted); font-size: 14px;
-  }
-  .login-help a { color: var(--accent); font-weight: 600; margin-left: 4px; }
-
-  /* QQ 群 */
-  .qq {
-    text-align: center;
-    background:
-      radial-gradient(ellipse at 50% 0%, rgba(33, 150, 243, 0.10), transparent 60%),
-      var(--bg2);
-    border: 1px solid var(--line); border-radius: 16px;
-    padding: 60px 30px;
-  }
-  .qq .q-num {
-    font-size: clamp(24px, 5vw, 36px); font-weight: 900; letter-spacing: 3px;
-    color: var(--accent); margin-top: 10px; user-select: all;
-  }
-  .qq .hint { color: var(--muted); font-size: 14px; margin-top: 18px; }
-  .qq .btn { margin-top: 28px; }
-
-  footer {
-    text-align: center; padding: 36px 5vw 44px;
-    color: var(--muted); font-size: 13px;
-    border-top: 1px solid var(--line);
-  }
-
-  @media (max-width: 640px) {
-    nav ul { gap: 16px; }
-    section { padding: 64px 5vw; }
-    .dl-box { flex-direction: column; align-items: flex-start; text-align: left; }
-  }
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LJC 云服务器 · 机械动力 &amp; 生电 Minecraft 服务器</title>
+<meta name="description" content="LJC 云服务器（LJCraft）是一个以机械动力（Create）与生电技术为核心的中文 Minecraft Java 服务器。永不删档、领地保护、反作弊在线，无需正版账号即可进服，服务器地址 mc.ljcyun.xyz:20058。">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:type" content="website">
+<meta property="og:title" content="LJC 云服务器 · 机械动力 &amp; 生电 Minecraft 服务器">
+<meta property="og:description" content="永不删档的机械动力 &amp; 生电服务器。地址 mc.ljcyun.xyz:20058，QQ 群 1064599211。">
+<meta property="og:image" content="assets/img/favicon.svg">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>
+  /* 主题引导：在首次绘制前确定主题，避免闪白。默认深色（可切换并记忆） */
+  (function () {
+    var t = "dark";
+    try {
+      var saved = localStorage.getItem("ljc-theme");
+      if (saved === "dark" || saved === "light") t = saved;
+    } catch (e) {}
+    document.documentElement.setAttribute("data-theme", t);
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.setAttribute("content", t === "dark" ? "#000000" : "#ffffff");
+  })();
+</script>
 </head>
 <body>
+<a class="skip-link" href="#main">跳到主要内容</a>
 
-<div class="progress" aria-hidden="true"></div>
+<!-- 图标精灵 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9.5" y="9.5" width="10" height="10" rx="2.5"/><path d="M14.5 6.5V6a2.5 2.5 0 0 0-2.5-2.5H6.5A2.5 2.5 0 0 0 4 6v5.5A2.5 2.5 0 0 0 6.5 14h.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5 9 17l10.5-10.5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13"/><path d="m12.5 6.5 5.5 5.5-5.5 5.5"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H9.5L4 20V6.5Z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2 5 6v5.4c0 4.2 2.9 7.5 7 9.1 4.1-1.6 7-4.9 7-9.1V6l-7-2.8Z"/><path d="m9 12 2.2 2.2L15.4 10"/></symbol>
+  <symbol id="i-archive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="7.5" ry="3"/><path d="M4.5 6v12c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3V6"/><path d="M4.5 12c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5.5" width="17" height="15" rx="2.5"/><path d="M3.5 10.5h17M8 3.5v4M16 3.5v4"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9.5 6 6 6-6"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-cube" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.6 20.8 7.4v9.2L12 21.4 3.2 16.6V7.4L12 2.6Z"/><path d="M12 12 20.8 7.4M12 12v9.4M12 12 3.2 7.4"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13.4 3 6.5 13.4h4.6L10.6 21l6.9-10.4h-4.6L13.4 3Z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 3.4v2.2M12 18.4v2.2M5 7.6l1.9 1.1M17.1 15.3l1.9 1.1M5 16.4l1.9-1.1M17.1 8.7l1.9-1.1"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.6 19.6c0-3 2.4-5.4 5.4-5.4s5.4 2.4 5.4 5.4"/><path d="M15.8 5.3a3.2 3.2 0 0 1 0 6M17.4 14.5c2 .8 3.4 2.8 3.4 5.1"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v11"/><path d="m8 10.5 4 4 4-4"/><path d="M4.5 17v1.5a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V17"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H19v15H6.5A2.5 2.5 0 0 0 4 20.5v-15Z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H19v3H6.5A2.5 2.5 0 0 1 4 20.5Z"/></symbol>
+</svg>
 
-<nav>
-  <div class="logo">4F4C<span>.</span></div>
-  <ul>
-    <li><a href="#intro">介绍</a></li>
-    <li><a href="#download">下载</a></li>
-    <li><a href="#login">登录</a></li>
-    <li><a href="#qq">QQ 群</a></li>
-  </ul>
-</nav>
+<!-- ── 导航 ─────────────────────────────────────────────────────────────── -->
+<header class="nav">
+  <div class="container nav__inner">
+    <a class="nav__brand" href="index.html" aria-label="LJC 云服务器 · 回到首页">
+      <img class="nav__brand-mark" src="assets/img/logo.svg" alt="" width="26" height="26">
+      <span class="nav__brand-text">LJC 云服务器<span>LJCraft</span></span>
+    </a>
 
-<header>
-  <div class="hero-inner">
-    <div class="badge reveal">NO RULES · 无规则生存</div>
-    <h1 class="reveal d-1">4F4C<span class="dot">.</span></h1>
-    <p class="tagline reveal d-2">和 2b2t、3c3u 一样的无规则服务器。<br>这里没有管理员,没有规则,没有限制——只有生存本身。</p>
-    <div class="cta reveal d-3">
-      <a class="btn btn-primary" href="#download">下载整合包</a>
-      <a class="btn btn-ghost" href="#qq">加入 QQ 群</a>
+    <nav class="nav__links" aria-label="主导航">
+      <a class="nav__link" href="index.html" data-nav-link>首页</a>
+      <a class="nav__link" href="modes.html" data-nav-link>玩法</a>
+      <a class="nav__link" href="join.html" data-nav-link>进服指南</a>
+      <a class="nav__link" href="rules.html" data-nav-link>规则</a>
+      <a class="nav__link" href="faq.html" data-nav-link>问答</a>
+    </nav>
+
+    <div class="nav__actions">
+      <a class="nav-cta nav-cta--ghost" href="join.html">
+        <svg class="btn__icon" aria-hidden="true"><use href="#i-book"/></svg>
+        新手引导
+      </a>
+      <button class="nav-cta nav-cta--primary" type="button"
+              data-copy="mc.ljcyun.xyz:20058" data-copy-label="已复制">
+        <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+        <span>复制地址</span>
+      </button>
     </div>
+
+    <button class="nav__toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-mobile">
+      <svg aria-hidden="true"><use href="#i-menu"/></svg>
+      <span class="sr-only">打开导航菜单</span>
+    </button>
   </div>
-  <div class="scroll-hint">
-    <div class="mouse"></div>
-    <span>下滑探索</span>
+
+  <div class="nav__mobile" id="nav-mobile" data-nav-panel data-open="false">
+    <ul>
+      <li><a href="index.html" data-nav-link>首页</a></li>
+      <li><a href="modes.html" data-nav-link>玩法</a></li>
+      <li><a href="join.html" data-nav-link>进服指南</a></li>
+      <li><a href="rules.html" data-nav-link>规则</a></li>
+      <li><a href="faq.html" data-nav-link>问答</a></li>
+    </ul>
+    <div class="nav__actions">
+      <button class="nav-cta nav-cta--primary" type="button"
+              data-copy="mc.ljcyun.xyz:20058" data-copy-label="已复制">
+        <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+        <span>复制服务器地址</span>
+      </button>
+      <button class="nav-cta nav-cta--ghost" type="button"
+              data-copy="1064599211" data-copy-label="已复制">
+        <svg class="btn__icon" aria-hidden="true"><use href="#i-chat"/></svg>
+        <span>复制 QQ 群号</span>
+      </button>
+    </div>
   </div>
 </header>
 
-<section id="intro">
-  <h2 class="reveal">服务器介绍</h2>
-  <p class="sub reveal d-1">混乱是这里的秩序,生存是唯一的法则。</p>
-  <div class="cards">
-    <div class="card reveal d-1">
-      <h3><span class="icon">🔥</span>无规则</h3>
-      <p>和 2b2t、3c3u 一样:没有规矩,没有审判,没有回档求饶。PvP、破坏、轰炸、作弊——一切皆被允许。</p>
-    </div>
-    <div class="card reveal d-2">
-      <h3><span class="icon">🌍</span>完整生存</h3>
-      <p>原汁原味的生存体验,从第一块木头到末地龙,一切由你亲手书写。世界不会因你而重置。</p>
-    </div>
-    <div class="card reveal d-3">
-      <h3><span class="icon">⚔️</span>适者生存</h3>
-      <p>没有保护的庇护所,没有安全的基地。学会隐藏、合作或征服,否则就消亡。历史由强者书写。</p>
-    </div>
-    <div class="card reveal d-4">
-      <h3><span class="icon">📜</span>真实历史</h3>
-      <p>每一次出生、每一场战争都被世界铭记。遗迹是教训,废墟是墓碑,你的故事也将成为传说。</p>
-    </div>
-  </div>
-</section>
+<main id="main">
 
-<section id="download">
-  <h2 class="reveal">整合包下载</h2>
-  <p class="sub reveal d-1">下载整合包,导入启动器即可直接游玩。</p>
-  <div class="dl-box reveal d-2">
-    <div>
-      <h3>4F4C 整合包</h3>
-      <p>包含全部所需模组与配置,下载后导入 PCL2 / HMCL 等启动器即可开玩。</p>
-      <a class="dl-tip" href="#login">不会登录?往下看 LittleSkin 教程 ↓</a>
-      <div class="dl-info">
-        <span>版本:1.20.1</span>
-        <span>类型:Forge 模组生存</span>
-        <span>大小:约 31 KB</span>
-        <span>导入启动器即玩</span>
+  <!-- ── Hero ───────────────────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="mesh" aria-hidden="true">
+      <div class="mesh__canvas"></div>
+      <div class="mesh__fade"></div>
+    </div>
+
+    <div class="container hero__inner">
+      <span class="banner" data-reveal>
+        <span class="badge badge--ink">新赛季</span>
+        <strong>「蒸汽纪元」</strong>已开启 · 整合包同步更新
+      </span>
+
+      <h1 class="display-xl hero__title" data-reveal data-reveal-delay="60">
+        把红石、齿轮和蒸汽，<br class="hero__br">拼成一座属于你的城市。
+      </h1>
+
+      <p class="lead hero__lead" data-reveal data-reveal-delay="120">
+        LJC 云服务器是一个以<strong>机械动力（Create）</strong>与<strong>生电技术</strong>为核心的中文 Minecraft 服务器。
+        永不删档、领地保护、反作弊 7×24 在线，无需正版账号即可用皮肤站进服。
+      </p>
+
+      <div class="cta-row hero__cta" data-reveal data-reveal-delay="180">
+        <button class="btn btn--primary" type="button"
+                data-copy="mc.ljcyun.xyz:20058" data-copy-label="地址已复制">
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+          <span>复制服务器地址</span>
+        </button>
+        <a class="btn btn--secondary" href="join.html">
+          查看进服指南
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+
+      <div class="ip-pill" data-reveal data-reveal-delay="220">
+        <span class="ip-pill__addr"><b>服务器地址&nbsp;&nbsp;</b>mc.ljcyun.xyz:20058</span>
+        <button class="btn btn--primary btn--sm ip-pill__btn" type="button"
+                data-copy="mc.ljcyun.xyz:20058" data-copy-label="已复制">
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+          <span>复制</span>
+        </button>
+      </div>
+
+      <div class="hero__meta" data-reveal data-reveal-delay="260">
+        <span>Java 版 1.20.1</span>
+        <span>机械动力整合包</span>
+        <span>无需正版</span>
+        <span>QQ 群 1064599211</span>
       </div>
     </div>
-    <a class="btn btn-primary" href="4F4C.zip" download>立即下载</a>
-  </div>
-</section>
+  </section>
 
-<section id="login">
-  <h2 class="reveal">服务器登录</h2>
-  <p class="sub reveal d-1">无需正版,服务器通过 LittleSkin 皮肤站登录(离线模式)。</p>
-  <div class="login-box">
-    <div class="login-step reveal">
-      <span>1</span>
-      <div>
-        <h3>注册 LittleSkin 账号</h3>
-        <p>打开 <a href="https://littleskin.cn" target="_blank" rel="noopener">littleskin.cn</a>,免费注册一个账号。</p>
+  <!-- ── 实时状态 ───────────────────────────────────────────────────────── -->
+  <section class="band band--soft" style="padding-top:0" aria-label="服务器实时状态">
+    <div class="container">
+      <div class="status" data-reveal>
+        <div class="status__cell">
+          <span class="status__label">运行状态</span>
+          <span class="status__value" data-status-state><i class="dot dot--pending"></i><span>检测中</span></span>
+        </div>
+        <div class="status__cell">
+          <span class="status__label">在线玩家</span>
+          <span class="status__value" data-status-players>—<small>/ — 人</small></span>
+        </div>
+        <div class="status__cell">
+          <span class="status__label">客户端版本</span>
+          <span class="status__value" data-status-version>1.20.1 · Forge</span>
+        </div>
+        <div class="status__cell">
+          <span class="status__label">服务器地址</span>
+          <span class="status__value status__value--addr">mc.ljcyun.xyz:20058</span>
+        </div>
+      </div>
+      <p class="caption mt-md" data-reveal>
+        <span class="mono">MOTD</span> <span data-status-motd>ljc的服务器 · qq群:1064599211</span>
+      </p>
+      <p class="caption" data-reveal>
+        状态数据来自公开查询接口，可能存在 1–2 分钟延迟；人数为 0 也可能只是暂时无人挂机，直接进服试试就好。
+      </p>
+    </div>
+  </section>
+
+  <!-- ── 服务标签 ───────────────────────────────────────────────────────── -->
+  <section class="band band--canvas" style="padding-block:56px">
+    <div class="container">
+      <p class="eyebrow text-center" style="display:block;margin-bottom:24px" data-reveal>服务器提供什么</p>
+      <div class="pill-row" style="max-width:840px;margin-inline:auto" data-reveal data-reveal-delay="60">
+        <span class="pill"><svg class="btn__icon" aria-hidden="true"><use href="#i-gear"/></svg>机械动力 6<span class="mono">CREATE</span></span>
+        <span class="pill"><svg class="btn__icon" aria-hidden="true"><use href="#i-bolt"/></svg>生电技术<span class="mono">TECHNICAL</span></span>
+        <span class="pill"><svg class="btn__icon" aria-hidden="true"><use href="#i-shield"/></svg>领地保护<span class="mono">CLAIM</span></span>
+        <span class="pill"><svg class="btn__icon" aria-hidden="true"><use href="#i-shield"/></svg>反作弊<span class="mono">ANTICHEAT</span></span>
+        <span class="pill"><svg class="btn__icon" aria-hidden="true"><use href="#i-users"/></svg>皮肤站<span class="mono">SKIN</span></span>
+        <span class="pill"><svg class="btn__icon" aria-hidden="true"><use href="#i-archive"/></svg>永不删档<span class="mono">PERSISTENT</span></span>
+        <span class="pill"><svg class="btn__icon" aria-hidden="true"><use href="#i-calendar"/></svg>定期活动<span class="mono">EVENTS</span></span>
       </div>
     </div>
-    <div class="login-step reveal d-1">
-      <span>2</span>
-      <div>
-        <h3>启动器配置</h3>
-        <p>在 PCL2 / HMCL 中下载安装 Authlib-Injector,登录方式选择「LittleSkin」,填入 API 地址即可。</p>
+  </section>
+
+  <!-- ── 三个理由 ───────────────────────────────────────────────────────── -->
+  <section class="band band--canvas" style="padding-top:0">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">为什么留在这里</span>
+        <h2 class="display-lg">长期、稳定、有秩序。</h2>
+        <p class="lead">服务器不靠频繁换档和重置世界吸引人，我们更在意你三年前盖的那栋房子，今天还在原地。</p>
+      </div>
+
+      <div class="grid grid--3">
+        <article class="card card--lg" data-reveal>
+          <span class="card__icon"><svg aria-hidden="true"><use href="#i-archive"/></svg></span>
+          <h3 class="display-md">永不删档</h3>
+          <p class="body-md">地图与玩家数据长期保留，版本升级以兼容方式迁移，不整档重置。你的机器、你的城市、你的存档都在。</p>
+          <div class="card__foot">
+            <span class="mono text-mute">PERSISTENT WORLD</span>
+            <svg class="btn__icon text-mute" aria-hidden="true"><use href="#i-check"/></svg>
+          </div>
+        </article>
+
+        <article class="card card--lg" data-reveal data-reveal-delay="80">
+          <span class="card__icon"><svg aria-hidden="true"><use href="#i-shield"/></svg></span>
+          <h3 class="display-md">领地保护 + 反作弊</h3>
+          <p class="body-md">圈地、锁箱、权限分级，陌生人动不了你的家；服务端反作弊与行为日志同时在线，恶意破坏可以按记录回滚。</p>
+          <div class="card__foot">
+            <span class="mono text-mute">PROTECTED &amp; LOGGED</span>
+            <svg class="btn__icon text-mute" aria-hidden="true"><use href="#i-check"/></svg>
+          </div>
+        </article>
+
+        <article class="card card--lg" data-reveal data-reveal-delay="160">
+          <span class="card__icon"><svg aria-hidden="true"><use href="#i-calendar"/></svg></span>
+          <h3 class="display-md">定期活动与建筑比赛</h3>
+          <p class="body-md">每月主题建造、机械作品评选与生电挑战赛，作品会被记入服务器年鉴，奖励直接发放到游戏内仓库。</p>
+          <div class="card__foot">
+            <span class="mono text-mute">MONTHLY EVENTS</span>
+            <svg class="btn__icon text-mute" aria-hidden="true"><use href="#i-check"/></svg>
+          </div>
+        </article>
       </div>
     </div>
-    <div class="login-step reveal d-2">
-      <span>3</span>
-      <div>
-        <h3>进入服务器</h3>
-        <p>用注册的 LittleSkin 账号登录游戏,选择 4F4C 服务器,开始你的生存。</p>
+  </section>
+
+  <!-- ── 机械动力（网格渐变 + 深色终端） ─────────────────────────────────── -->
+  <section class="band band--canvas" style="position:relative;overflow:hidden;isolation:isolate">
+    <div class="mesh" aria-hidden="true" style="opacity:.9">
+      <div class="mesh__canvas" style="top:-30%;opacity:.34"></div>
+      <div class="mesh__fade"></div>
+    </div>
+
+    <div class="container split split--wide-right" style="position:relative">
+      <div class="split__copy" data-reveal>
+        <span class="eyebrow">主玩法 · 机械动力</span>
+        <h2 class="display-lg">用旋转动力，把想法变成产线。</h2>
+        <p class="body-md">
+          服务端同步更新 Create 6 系列与常用扩展：从最基础的水车、蒸汽机，到传送带、机械臂、列车与自动化流水线。
+          你想造的机器，这里基本都有零件；造不出来的，群里有人陪你一起研究。
+        </p>
+        <ul class="feature-list mt-md">
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span><strong>动力与传动</strong>：水车、风车、蒸汽引擎、齿轮箱与离合器，搭一套真正会转的动力系统。</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span><strong>列车与轨道</strong>：铺设铁路、设置站点与时刻表，让列车自动跑完你的整座城市。</span></li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg><span><strong>自动化产线</strong>：传送带、机械臂、漏斗与打包机，把手工劳作交给机器。</span></li>
+        </ul>
+        <div class="cta-row mt-md">
+          <a class="btn btn--primary" href="modes.html">
+            看完整玩法
+            <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div data-reveal data-reveal-delay="100">
+        <div class="terminal" role="img" aria-label="机械动力整合包信息">
+          <div class="terminal__bar" aria-hidden="true">
+            <i class="terminal__dot"></i><i class="terminal__dot"></i><i class="terminal__dot"></i>
+            <span>ljcraft · create pack</span>
+          </div>
+          <div class="terminal__line"><span class="terminal__prompt">$</span><span class="terminal__v">ljc pack info</span></div>
+          <div class="terminal__gap"></div>
+          <div class="terminal__line"><span class="terminal__k">服务器地址</span><span class="terminal__v terminal__v--accent">mc.ljcyun.xyz:20058</span></div>
+          <div class="terminal__line"><span class="terminal__k">客户端</span><span class="terminal__v">1.20.1 · Forge</span></div>
+          <div class="terminal__line"><span class="terminal__k">核心模组</span><span class="terminal__v">Create 6 系列</span></div>
+          <div class="terminal__line"><span class="terminal__k">常用扩展</span><span class="terminal__v">蒸汽铁路 / 航空学 / 配方查询</span></div>
+          <div class="terminal__line"><span class="terminal__k">账号要求</span><span class="terminal__v">无需正版 · 皮肤站登录</span></div>
+          <div class="terminal__gap"></div>
+          <div class="terminal__line"><span class="terminal__prompt">$</span><span class="terminal__v">connect --now<span style="color:#50e3c2">▍</span></span></div>
+        </div>
+        <p class="caption mt-md">整合包下载与安装步骤见 <a class="inline-link" href="join.html#pack">进服指南</a>；模组清单以群内公告版本为准。</p>
       </div>
     </div>
-  </div>
-  <p class="login-help reveal d-3">不会弄?不要慌,进群让群友手把手教你<a href="#qq">加入 QQ 群 →</a></p>
-</section>
+  </section>
 
-<section id="qq">
-  <h2 class="reveal">加入 QQ 群</h2>
-  <p class="sub reveal d-1">讨论、组队、宣战,一切从这里开始。</p>
-  <div class="qq reveal d-2">
-    <div style="font-size:15px;color:var(--muted);">4F4C 玩家交流群</div>
-    <div class="q-num">1106510349</div>
-    <p class="hint">复制群号,在 QQ 中搜索并申请加入</p>
-    <a class="btn btn-primary" href="https://qm.qq.com/cgi-bin/qm/qr?k=1106510349" target="_blank" rel="noopener">加入群聊</a>
-  </div>
-</section>
+  <!-- ── 生电 ───────────────────────────────────────────────────────────── -->
+  <section class="band band--soft">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">副玩法 · 生电技术</span>
+        <h2 class="display-lg">红石不止能亮灯，还能改写产能。</h2>
+        <p class="lead">服务端为技术型玩家保留了完整的生电环境：不砍关键机制、开放常用工程设施，并允许在指定区域建设大型机器。</p>
+      </div>
 
-<footer>
-  <p>4F4C · NO RULES SURVIVAL · 无规则,无怜悯</p>
-  <p style="margin-top:6px;">页面内容仅供参考,最终解释权归 4F4C 群管理所有</p>
+      <div class="grid grid--4">
+        <article class="card card--flush" data-reveal>
+          <div class="card__media">
+            <span class="card__media-label">World Eater</span>
+          </div>
+          <div class="card__body">
+            <h3 class="body-md" style="font-weight:600;color:var(--ink)">TNT 世界吞噬者</h3>
+            <p class="body-sm">为大型工程清理区块，服务器提供对应区块的加载与保护说明。</p>
+          </div>
+        </article>
+
+        <article class="card card--flush" data-reveal data-reveal-delay="60">
+          <div class="card__media">
+            <span class="card__media-label">Mob Farm</span>
+          </div>
+          <div class="card__body">
+            <h3 class="body-md" style="font-weight:600;color:var(--ink)">高效刷怪塔</h3>
+            <p class="body-sm">从基础刷怪笼到多维度刷怪平台，掉落物共用仓库与自动分类。</p>
+          </div>
+        </article>
+
+        <article class="card card--flush" data-reveal data-reveal-delay="120">
+          <div class="card__media">
+            <span class="card__media-label">Iron &amp; Trade</span>
+          </div>
+          <div class="card__body">
+            <h3 class="body-md" style="font-weight:600;color:var(--ink)">铁傀儡与村民工程</h3>
+            <p class="body-sm">刷铁机、打折交易大厅、村民繁殖与运输通道，全套可复刻。</p>
+          </div>
+        </article>
+
+        <article class="card card--flush" data-reveal data-reveal-delay="180">
+          <div class="card__media">
+            <span class="card__media-label">Chunk &amp; End</span>
+          </div>
+          <div class="card__body">
+            <h3 class="body-md" style="font-weight:600;color:var(--ink)">区块加载与末地工程</h3>
+            <p class="body-sm">末地祭坛、刷沙机、以及需要长距离加载的自动化工程。</p>
+          </div>
+        </article>
+      </div>
+
+      <p class="caption mt-lg" data-reveal>图片位置预留：把你们的实机截图放进 <code class="inline">assets/img/</code>，替换卡片封面即可。</p>
+    </div>
+  </section>
+
+  <!-- ── 三步进服（深色极性翻转） ────────────────────────────────────────── -->
+  <section class="band band--dark">
+    <div class="container split">
+      <div class="split__copy" data-reveal>
+        <span class="eyebrow">开始游戏</span>
+        <h2 class="display-lg">三步进服，五分钟开玩。</h2>
+        <p class="body-md">
+          不需要正版账号，也支持自带皮肤的皮肤站登录。装好 Java、导入整合包、添加服务器地址，剩下的交给启动器。
+        </p>
+        <div class="cta-row mt-md">
+          <a class="btn btn--on-dark" href="join.html">
+            查看完整进服指南
+            <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </a>
+          <button class="btn btn--ghost-dark" type="button"
+                  data-copy="mc.ljcyun.xyz:20058" data-copy-label="地址已复制">
+            <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+            <span>复制地址</span>
+          </button>
+        </div>
+      </div>
+
+      <div data-reveal data-reveal-delay="100">
+        <div class="terminal">
+          <div class="terminal__bar" aria-hidden="true">
+            <i class="terminal__dot"></i><i class="terminal__dot"></i><i class="terminal__dot"></i>
+            <span>quickstart</span>
+          </div>
+          <div class="terminal__line"><span class="terminal__prompt">01</span><span class="terminal__v">安装 Java 21（群文件可下载）</span></div>
+          <div class="terminal__line"><span class="terminal__prompt">02</span><span class="terminal__v">在启动器导入 LJC 整合包</span></div>
+          <div class="terminal__line"><span class="terminal__prompt">03</span><span class="terminal__v">多人游戏 → 添加服务器</span></div>
+          <div class="terminal__gap"></div>
+          <div class="terminal__line"><span class="terminal__k">地址</span><span class="terminal__v terminal__v--accent">mc.ljcyun.xyz:20058</span></div>
+          <div class="terminal__line"><span class="terminal__k">QQ 群</span><span class="terminal__v">1064599211</span></div>
+          <div class="terminal__gap"></div>
+          <div class="terminal__line"><span class="terminal__prompt">$</span><span class="terminal__v">welcome to ljcraft<span style="color:#50e3c2">▍</span></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 社区 / QQ 群 ───────────────────────────────────────────────────── -->
+  <section class="band band--canvas">
+    <div class="container">
+      <div class="card card--lg" style="padding:clamp(24px,4vw,48px)" data-reveal>
+        <div class="split split--wide-right" style="align-items:center;gap:var(--sp-xl)">
+          <div class="split__copy">
+            <span class="eyebrow">社区</span>
+            <h2 class="display-lg">所有公告，都在 QQ 群。</h2>
+            <p class="body-md">
+              整合包下载、开服公告、活动报名、封禁申诉与技术支持都通过 QQ 群同步。
+              遇到进不去服、崩客户端、被熊孩子骚扰，群里喊一声就有人管。
+            </p>
+            <div class="cta-row mt-md">
+              <button class="btn btn--primary" type="button"
+                      data-copy="1064599211" data-copy-label="群号已复制">
+                <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+                <span>复制群号 1064599211</span>
+              </button>
+              <a class="btn btn--secondary" href="faq.html">
+                常见问题
+                <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="stack-md">
+            <div class="card card--soft" style="gap:6px">
+              <span class="eyebrow">QQ 群号</span>
+              <p class="display-lg" style="font-family:var(--font-mono);font-weight:400;letter-spacing:-1px">1064599211</p>
+              <p class="body-sm">打开 QQ → 搜索群号 → 申请加入，进群后请先看群公告。</p>
+            </div>
+            <div class="grid grid--2" style="gap:var(--sp-sm)">
+              <div class="card card--soft" style="gap:4px">
+                <span class="eyebrow">技术支持</span>
+                <p class="body-sm">崩溃、报错、延迟问题排查</p>
+              </div>
+              <div class="card card--soft" style="gap:4px">
+                <span class="eyebrow">活动报名</span>
+                <p class="body-sm">建造比赛与生电挑战赛</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ 预览 ───────────────────────────────────────────────────────── -->
+  <section class="band band--soft">
+    <div class="container container--narrow">
+      <div class="section-head section-head--center" data-reveal>
+        <span class="eyebrow">常见问题</span>
+        <h2 class="display-lg">进服前，你可能想问。</h2>
+      </div>
+
+      <div class="faq" data-reveal>
+        <details class="faq__item">
+          <summary class="faq__q">需要正版账号才能进服吗？
+            <svg class="faq__chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </summary>
+          <div class="faq__a">
+            <p>不需要。服务器支持离线登录（非正版）进入，并自建了皮肤站：注册后在皮肤站上传皮肤，进入游戏即可显示你自己的外观。</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary class="faq__q">客户端要用什么版本、装什么模组？
+            <svg class="faq__chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </summary>
+          <div class="faq__a">
+            <p>服务端为 Java 版 1.20.1 + Forge，核心是机械动力（Create）整合包。请直接使用群文件里的整合包，版本与模组列表一致才不会被踢出。</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary class="faq__q">地图会被重置吗？我造的机器能留多久？
+            <svg class="faq__chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </summary>
+          <div class="faq__a">
+            <p>不会删档。地图与玩家数据长期保留，版本更新采用兼容迁移，不整档重置。</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary class="faq__q">被人拆家了怎么办？
+            <svg class="faq__chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </summary>
+          <div class="faq__a">
+            <p>先圈地：用领地指令把自己的建筑保护起来；如果已经遭到破坏，在 QQ 群提交坐标与时间，管理员可以依据行为日志回滚被破坏的方块。</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="text-center mt-lg" data-reveal>
+        <a class="btn btn--secondary" href="faq.html">
+          查看全部问题
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 结尾 CTA ───────────────────────────────────────────────────────── -->
+  <section class="cta-band">
+    <div class="mesh" aria-hidden="true">
+      <div class="mesh__canvas"></div>
+      <div class="mesh__fade mesh__fade--up"></div>
+    </div>
+    <div class="container cta-band__inner">
+      <span class="eyebrow" data-reveal>服务器一直开着</span>
+      <h2 class="display-lg" data-reveal data-reveal-delay="60" style="max-width:18em">世界已经开着了，就等你进来。</h2>
+      <p class="lead" data-reveal data-reveal-delay="120" style="max-width:34em">
+        mc.ljcyun.xyz:20058 · QQ 群 1064599211
+      </p>
+      <div class="cta-row" style="justify-content:center" data-reveal data-reveal-delay="180">
+        <button class="btn btn--primary" type="button"
+                data-copy="mc.ljcyun.xyz:20058" data-copy-label="地址已复制">
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+          <span>复制服务器地址</span>
+        </button>
+        <a class="btn btn--secondary" href="join.html">
+          第一次来？看这里
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── 页脚 ─────────────────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__col footer__brand">
+        <div class="footer__brand-mark">
+          <img src="assets/img/logo.svg" alt="" width="26" height="26">
+          LJC 云服务器
+        </div>
+        <p class="body-sm">以机械动力与生电技术为核心的中文 Minecraft Java 服务器。永不删档，长期在线。</p>
+        <p class="mono text-mute">mc.ljcyun.xyz:20058</p>
+        <p class="mono text-mute">QQ 群 1064599211</p>
+      </div>
+
+      <div class="footer__col">
+        <h4>服务器</h4>
+        <ul>
+          <li><a href="index.html">首页</a></li>
+          <li><a href="modes.html">玩法介绍</a></li>
+          <li><a href="rules.html">服务器规则</a></li>
+          <li><a href="faq.html">常见问题</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4>开始游戏</h4>
+        <ul>
+          <li><a href="join.html">进服指南</a></li>
+          <li><a href="join.html#pack">整合包下载</a></li>
+          <li><a href="join.html#skin">皮肤站说明</a></li>
+          <li><a href="join.html#errors">报错排查</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4>社区</h4>
+        <ul>
+          <li><a href="faq.html#contact">加入 QQ 群</a></li>
+          <li><a href="rules.html#appeal">封禁申诉</a></li>
+          <li><a href="modes.html#events">活动与比赛</a></li>
+          <li><a href="faq.html#staff">管理团队</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© <span data-year>2025</span> LJC 云服务器 · 保留所有权利</span>
+      <span>本站为玩家自建服务器站点，与 Mojang Studios 及 Microsoft 无隶属关系。</span>
+      <span class="mono">mc.ljcyun.xyz:20058</span>
+    </div>
+  </div>
 </footer>
 
-<script>
-(function () {
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var bar = document.querySelector('.progress');
-  var hero = document.querySelector('.hero-inner');
-  var hint = document.querySelector('.scroll-hint');
-  var sections = Array.prototype.slice.call(document.querySelectorAll('section[id]'));
-  var links = Array.prototype.slice.call(document.querySelectorAll('nav a[href^="#"]'));
-  var ticking = false;
-
-  function onScroll() {
-    var y = window.scrollY || window.pageYOffset;
-    var h = document.documentElement.scrollHeight - window.innerHeight;
-    if (bar) bar.style.width = (h > 0 ? (y / h) * 100 : 0) + '%';
-
-    /* 导航高亮跟随当前区块 */
-    var current = 0;
-    for (var i = 0; i < sections.length; i++) {
-      if (sections[i].getBoundingClientRect().top <= 120) current = i;
-    }
-    for (var j = 0; j < links.length; j++) {
-      links[j].classList.toggle('active', j === current);
-    }
-
-    /* 首屏视差下沉 + 下滑提示淡出 */
-    if (hint) hint.classList.toggle('fade', y > 90);
-    if (!reduce && hero) {
-      hero.style.transform = 'translateY(' + (y * 0.3) + 'px)';
-      hero.style.opacity = Math.max(0.2, 1 - y / (window.innerHeight * 0.85));
-    }
-    ticking = false;
-  }
-  window.addEventListener('scroll', function () {
-    if (!ticking) { window.requestAnimationFrame(onScroll); ticking = true; }
-  }, { passive: true });
-  onScroll();
-
-  /* 滚动显现动画 */
-  function reveal(el) {
-    el.classList.add('visible');
-    setTimeout(function () {
-      el.classList.remove('reveal', 'reveal-left', 'reveal-right', 'reveal-zoom', 'd-1', 'd-2', 'd-3', 'd-4', 'visible');
-    }, 1400);
-  }
-  var els = document.querySelectorAll('.reveal');
-  if (!('IntersectionObserver' in window)) {
-    Array.prototype.forEach.call(els, reveal);
-  } else {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) { reveal(en.target); io.unobserve(en.target); }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-    Array.prototype.forEach.call(els, function (el) { io.observe(el); });
-  }
-})();
-</script>
-
+<script src="assets/js/main.js"></script>
 </body>
 </html>

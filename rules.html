@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>服务器规则 · LJC 云服务器</title>
+<meta name="description" content="LJC 云服务器（LJCraft）服务器规则：禁止作弊与漏洞利用、禁止恶意破坏与偷窃、大型生电机器需报备、禁止刷屏与人身攻击。附违规处罚梯度、领地保护说明与申诉方式，QQ 群 1064599211。">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:type" content="website">
+<meta property="og:title" content="服务器规则 · LJC 云服务器">
+<meta property="og:description" content="规则的目的不是限制玩法，而是让每个人的建筑和机器都能安全地留在这里。地址 mc.ljcyun.xyz:20058，QQ 群 1064599211。">
+<meta property="og:image" content="assets/img/favicon.svg">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>
+  /* 主题引导：在首次绘制前确定主题，避免闪白。默认深色（可切换并记忆） */
+  (function () {
+    var t = "dark";
+    try {
+      var saved = localStorage.getItem("ljc-theme");
+      if (saved === "dark" || saved === "light") t = saved;
+    } catch (e) {}
+    document.documentElement.setAttribute("data-theme", t);
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.setAttribute("content", t === "dark" ? "#000000" : "#ffffff");
+  })();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<!-- 图标精灵 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9.5" y="9.5" width="10" height="10" rx="2.5"/><path d="M14.5 6.5V6a2.5 2.5 0 0 0-2.5-2.5H6.5A2.5 2.5 0 0 0 4 6v5.5A2.5 2.5 0 0 0 6.5 14h.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5 9 17l10.5-10.5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13"/><path d="m12.5 6.5 5.5 5.5-5.5 5.5"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H9.5L4 20V6.5Z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2 5 6v5.4c0 4.2 2.9 7.5 7 9.1 4.1-1.6 7-4.9 7-9.1V6l-7-2.8Z"/><path d="m9 12 2.2 2.2L15.4 10"/></symbol>
+  <symbol id="i-archive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="7.5" ry="3"/><path d="M4.5 6v12c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3V6"/><path d="M4.5 12c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5.5" width="17" height="15" rx="2.5"/><path d="M3.5 10.5h17M8 3.5v4M16 3.5v4"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9.5 6 6 6-6"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-cube" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.6 20.8 7.4v9.2L12 21.4 3.2 16.6V7.4L12 2.6Z"/><path d="M12 12 20.8 7.4M12 12v9.4M12 12 3.2 7.4"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13.4 3 6.5 13.4h4.6L10.6 21l6.9-10.4h-4.6L13.4 3Z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 3.4v2.2M12 18.4v2.2M5 7.6l1.9 1.1M17.1 15.3l1.9 1.1M5 16.4l1.9-1.1M17.1 8.7l1.9-1.1"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.6 19.6c0-3 2.4-5.4 5.4-5.4s5.4 2.4 5.4 5.4"/><path d="M15.8 5.3a3.2 3.2 0 0 1 0 6M17.4 14.5c2 .8 3.4 2.8 3.4 5.1"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v11"/><path d="m8 10.5 4 4 4-4"/><path d="M4.5 17v1.5a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V17"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H19v15H6.5A2.5 2.5 0 0 0 4 20.5v-15Z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H19v3H6.5A2.5 2.5 0 0 1 4 20.5Z"/></symbol>
+</svg>
+
+<!-- ── 导航 ─────────────────────────────────────────────────────────────── -->
+<header class="nav">
+  <div class="container nav__inner">
+    <a class="nav__brand" href="index.html" aria-label="LJC 云服务器 · 回到首页">
+      <img class="nav__brand-mark" src="assets/img/logo.svg" alt="" width="26" height="26">
+      <span class="nav__brand-text">LJC 云服务器<span>LJCraft</span></span>
+    </a>
+
+    <nav class="nav__links" aria-label="主导航">
+      <a class="nav__link" href="index.html" data-nav-link>首页</a>
+      <a class="nav__link" href="modes.html" data-nav-link>玩法</a>
+      <a class="nav__link" href="join.html" data-nav-link>进服指南</a>
+      <a class="nav__link" href="rules.html" data-nav-link>规则</a>
+      <a class="nav__link" href="faq.html" data-nav-link>问答</a>
+    </nav>
+
+    <div class="nav__actions">
+      <a class="nav-cta nav-cta--ghost" href="join.html">
+        <svg class="btn__icon" aria-hidden="true"><use href="#i-book"/></svg>
+        新手引导
+      </a>
+      <button class="nav-cta nav-cta--primary" type="button"
+              data-copy="mc.ljcyun.xyz:20058" data-copy-label="已复制">
+        <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+        <span>复制地址</span>
+      </button>
+    </div>
+
+    <button class="nav__toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-mobile">
+      <svg aria-hidden="true"><use href="#i-menu"/></svg>
+      <span class="sr-only">打开导航菜单</span>
+    </button>
+  </div>
+
+  <div class="nav__mobile" id="nav-mobile" data-nav-panel data-open="false">
+    <ul>
+      <li><a href="index.html" data-nav-link>首页</a></li>
+      <li><a href="modes.html" data-nav-link>玩法</a></li>
+      <li><a href="join.html" data-nav-link>进服指南</a></li>
+      <li><a href="rules.html" data-nav-link>规则</a></li>
+      <li><a href="faq.html" data-nav-link>问答</a></li>
+    </ul>
+    <div class="nav__actions">
+      <button class="nav-cta nav-cta--primary" type="button"
+              data-copy="mc.ljcyun.xyz:20058" data-copy-label="已复制">
+        <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+        <span>复制服务器地址</span>
+      </button>
+      <button class="nav-cta nav-cta--ghost" type="button"
+              data-copy="1064599211" data-copy-label="已复制">
+        <svg class="btn__icon" aria-hidden="true"><use href="#i-chat"/></svg>
+        <span>复制 QQ 群号</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ── Hero ───────────────────────────────────────────────────────────── -->
+  <section class="hero hero--compact">
+    <div class="mesh" aria-hidden="true">
+      <div class="mesh__canvas"></div>
+      <div class="mesh__fade"></div>
+    </div>
+
+    <div class="container hero__inner">
+      <span class="eyebrow" data-reveal>服务器规则</span>
+
+      <h1 class="display-xl hero__title" data-reveal data-reveal-delay="60">
+        规则不长，但请认真读完。
+      </h1>
+
+      <p class="lead hero__lead" data-reveal data-reveal-delay="120">
+        规则的目的不是限制玩法，而是让每个人的建筑和机器都能安全地留在这里。
+        这一页写清了什么可以做、什么不能做，以及出问题时我们怎么处理。
+      </p>
+
+      <div class="cta-row hero__cta" data-reveal data-reveal-delay="180">
+        <a class="btn btn--primary" href="#appeal">
+          查看申诉流程
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </a>
+        <button class="btn btn--secondary" type="button"
+                data-copy="1064599211" data-copy-label="群号已复制">
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-chat"/></svg>
+          <span>复制 QQ 群号</span>
+        </button>
+      </div>
+
+      <div class="hero__meta" data-reveal data-reveal-delay="220">
+        <span>八条规则</span>
+        <span>处罚梯度公开</span>
+        <span>处理依据行为日志</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 规则正文 ───────────────────────────────────────────────────────── -->
+  <section class="band band--canvas">
+    <div class="container container--narrow">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">规则正文</span>
+        <h2 class="display-lg">八条规则，覆盖绝大多数情况。</h2>
+        <p class="lead">
+          条款之外的情况，管理组会按同一套原则判断：不影响别人、不破坏别人的劳动成果。
+          遇到新问题会在 QQ 群公告里补充说明。
+        </p>
+      </div>
+
+      <div data-reveal>
+        <div class="rule">
+          <span class="rule__no">01</span>
+          <div>
+            <div class="rule__title">不要使用作弊客户端、外挂或漏洞利用。</div>
+            <div class="rule__body">
+              飞行、加速、自动挖矿、透视材质、自动连点，以及任何形式的客户端注入，都在禁止之列。
+              服务端反作弊与行为日志同时在线，异常操作会被记录下来。
+              如果你发现了服务端漏洞，请私下告诉管理组：主动上报不会被处罚，拿来刷物品或者穿越领地才会按处罚梯度处理。
+            </div>
+          </div>
+        </div>
+
+        <div class="rule">
+          <span class="rule__no">02</span>
+          <div>
+            <div class="rule__title">不要破坏、偷走或擅自改动别人的东西。</div>
+            <div class="rule__body">
+              未经允许拆掉方块、翻别人的箱子、牵走生物，或者改动他人的铁路与动力网络，都属于破坏行为。
+              需要借用材料或场地，先在群里问一声，大多数人都很好说话。
+              被破坏的方块可以依据行为日志回滚，是否回滚与处理力度按实际影响判断。
+            </div>
+          </div>
+        </div>
+
+        <div class="rule">
+          <span class="rule__no">03</span>
+          <div>
+            <div class="rule__title">大型生电机器请先报备，不要贴着别人的建筑开工。</div>
+            <div class="rule__body">
+              TNT 世吞、大型刷怪塔、需要长期加载区块的工程，以及会持续产生噪声或实体的机器，请先在 QQ 群报备坐标与用途。
+              管理组会帮你确认这片区域是否与别人的领地、建筑或已有工程冲突。
+              已经建成的机器也不要随意扩大影响范围，改动前先和周边玩家打个招呼。
+            </div>
+          </div>
+        </div>
+
+        <div class="rule">
+          <span class="rule__no">04</span>
+          <div>
+            <div class="rule__title">不要让机器拖垮服务器。</div>
+            <div class="rule__body">
+              无节制堆积实体、刻意制造大量掉落物、长时间空转的卡服装置，会直接影响到所有人。
+              服务器不限制正常规模的自动化，只限制影响到别人的部分。
+              发现问题时管理组会先联系你一起优化；确实无法改善的，可能会要求停机或拆除。
+            </div>
+          </div>
+        </div>
+
+        <div class="rule">
+          <span class="rule__no">05</span>
+          <div>
+            <div class="rule__title">不要在公屏和群里刷屏、发广告或攻击他人。</div>
+            <div class="rule__body">
+              重复刷同一句话、连续发送无意义字符、发布外服与交易广告、辱骂或带有歧视意味的言论，都不允许。
+              讨论技术时出现分歧很正常，请对事不对人。
+              如果被人骚扰，直接在群里找管理组，不必自己对线。
+            </div>
+          </div>
+        </div>
+
+        <div class="rule">
+          <span class="rule__no">06</span>
+          <div>
+            <div class="rule__title">不要未经许可搬运他人在本服的原创作品。</div>
+            <div class="rule__body">
+              在 LJC 里设计出来的机械、建筑、生电方案与教程，版权属于原作者。
+              想转载、录制视频或者复刻到其他服务器，请先取得作者同意并注明来源。
+              活动作品与服务器年鉴中收录的内容同样适用。
+            </div>
+          </div>
+        </div>
+
+        <div class="rule">
+          <span class="rule__no">07</span>
+          <div>
+            <div class="rule__title">不要进行真实货币交易与账号买卖。</div>
+            <div class="rule__body">
+              服务器不提供任何形式的交易担保。线下转账、代练、账号买卖以及用钱换物资都不被允许，由此产生的纠纷管理组无法协助追回。
+              游戏内的以物易物、玩家商店与集市是鼓励的，只要双方自愿、不涉及真实货币即可。
+            </div>
+          </div>
+        </div>
+
+        <div class="rule">
+          <span class="rule__no">08</span>
+          <div>
+            <div class="rule__title">领地保护是自助的，请先圈地再安心建造。</div>
+            <div class="rule__body">
+              服务器提供领地保护与容器上锁机制，圈地指令组与权限说明会写在群公告里，也可以在游戏内输入 <code class="inline">/help</code> 查看当前可用指令。
+              建议在动工前先把地块圈好，再把重要箱子锁上；权限设置遇到问题，可以在群里请管理组帮你核对。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="caption mt-lg" data-reveal>
+        规则会随版本与玩法调整，最新版本始终以 QQ 群公告为准；本页与群公告不一致时，按群公告执行。
+      </p>
+    </div>
+  </section>
+
+  <!-- ── 处罚梯度 ───────────────────────────────────────────────────────── -->
+  <section class="band band--soft">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">处罚梯度</span>
+        <h2 class="display-lg">处理标准公开，尽量做到一致。</h2>
+        <p class="lead">
+          下表是常见违规的处理区间。实际判定会考虑影响范围、是否主动上报、是否配合恢复现场；
+          所有处理都在核对行为日志之后进行，不做没有依据的封禁。
+        </p>
+      </div>
+
+      <div class="table-wrap" data-reveal>
+        <table class="data">
+          <thead>
+            <tr>
+              <th>违规类型</th>
+              <th>首次处理</th>
+              <th>再次处理</th>
+              <th>说明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>外挂、作弊客户端与漏洞利用</td>
+              <td>封禁 30 天，回收异常获得的物品</td>
+              <td>永久封禁</td>
+              <td>主动上报漏洞可以从轻；用漏洞刷取物品按再次处理对待。</td>
+            </tr>
+            <tr>
+              <td>恶意破坏与偷窃</td>
+              <td>回滚被破坏的方块，封禁 14 天</td>
+              <td>封禁 90 天，并记录在案</td>
+              <td>涉及多人领地或公共设施时，直接按再次处理档执行。</td>
+            </tr>
+            <tr>
+              <td>大型机器未报备、影响他人</td>
+              <td>提醒并协助迁移或改造机器</td>
+              <td>强制停机或拆除，暂停相关权限</td>
+              <td>报备之后，管理组会协助划分区域、说明加载限制。</td>
+            </tr>
+            <tr>
+              <td>刷屏、广告与人身攻击</td>
+              <td>群内或游戏内警告</td>
+              <td>禁言 7 天，情节严重者临时封禁</td>
+              <td>涉及骚扰与歧视性言论的，不适用首次从轻。</td>
+            </tr>
+            <tr>
+              <td>真实货币交易与账号买卖</td>
+              <td>取消交易，双方警告并退回物资</td>
+              <td>封禁 30 天</td>
+              <td>交易纠纷服务器不提供担保，也无法追回已支付的款项。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="caption mt-md" data-reveal>
+        对处理结果有疑问，可以按 <a class="inline-link" href="#appeal">申诉流程</a> 提交证据，管理组会重新核对日志；误判会解除处理并恢复受影响的部分。
+      </p>
+    </div>
+  </section>
+
+  <!-- ── 申诉 ───────────────────────────────────────────────────────────── -->
+  <section class="band band--canvas" id="appeal">
+    <div class="container">
+      <div class="card card--lg" style="padding:clamp(24px,4vw,48px)" data-reveal>
+        <div class="split split--wide-right" style="align-items:center;gap:var(--sp-xl)">
+          <div class="split__copy">
+            <span class="eyebrow">申诉</span>
+            <h2 class="display-lg">如果你觉得处理错了，就来申诉。</h2>
+            <p class="body-md">
+              申诉统一走 QQ 群，不需要写小作文：把游戏 ID、发生时间、坐标和截图发出来就够了。
+              管理组会调取行为日志核对当时的方块与容器改动，确认是误判就解除处理、恢复受影响的部分；确认无误也会把依据回复给你。
+            </p>
+            <ul class="feature-list mt-md">
+              <li><svg aria-hidden="true"><use href="#i-check"/></svg><span><strong>需要提供</strong>：游戏 ID、发生时间（尽量精确到小时）、坐标，以及相关截图或录像。</span></li>
+              <li><svg aria-hidden="true"><use href="#i-check"/></svg><span><strong>核对方式</strong>：以服务端行为日志为准，日志记录的是方块与容器的实际改动。</span></li>
+              <li><svg aria-hidden="true"><use href="#i-check"/></svg><span><strong>回复方式</strong>：在群里回复处理结果；涉及个人信息的细节会私下说明。</span></li>
+            </ul>
+            <div class="cta-row mt-md">
+              <button class="btn btn--primary" type="button"
+                      data-copy="1064599211" data-copy-label="群号已复制">
+                <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+                <span>复制群号 1064599211</span>
+              </button>
+              <a class="btn btn--secondary" href="faq.html#staff">
+                看管理与申诉问答
+                <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="stack-md">
+            <div class="card card--soft" style="gap:6px">
+              <span class="eyebrow">申诉入口</span>
+              <p class="display-lg" style="font-family:var(--font-mono);font-weight:400;letter-spacing:-1px">1064599211</p>
+              <p class="body-sm">打开 QQ → 搜索群号 → 申请加入，进群后在群里 @ 管理组并附上申诉材料。</p>
+            </div>
+            <div class="grid grid--2" style="gap:var(--sp-sm)">
+              <div class="card card--soft" style="gap:4px">
+                <span class="eyebrow">回滚范围</span>
+                <p class="body-sm">被破坏的方块与容器内容可依据日志恢复</p>
+              </div>
+              <div class="card card--soft" style="gap:4px">
+                <span class="eyebrow">处理时效</span>
+                <p class="body-sm">管理组看到消息后会尽快核对并回复</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 结尾 CTA ───────────────────────────────────────────────────────── -->
+  <section class="cta-band">
+    <div class="mesh" aria-hidden="true">
+      <div class="mesh__canvas"></div>
+      <div class="mesh__fade mesh__fade--up"></div>
+    </div>
+    <div class="container cta-band__inner">
+      <span class="eyebrow" data-reveal>读完就可以进服</span>
+      <h2 class="display-lg" data-reveal data-reveal-delay="60" style="max-width:18em">规则看完了，剩下的交给齿轮和红石。</h2>
+      <p class="lead" data-reveal data-reveal-delay="120" style="max-width:34em">
+        mc.ljcyun.xyz:20058 · QQ 群 1064599211
+      </p>
+      <div class="cta-row" style="justify-content:center" data-reveal data-reveal-delay="180">
+        <button class="btn btn--primary" type="button"
+                data-copy="mc.ljcyun.xyz:20058" data-copy-label="地址已复制">
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+          <span>复制服务器地址</span>
+        </button>
+        <a class="btn btn--secondary" href="join.html">
+          第一次来？看这里
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── 页脚 ─────────────────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__col footer__brand">
+        <div class="footer__brand-mark">
+          <img src="assets/img/logo.svg" alt="" width="26" height="26">
+          LJC 云服务器
+        </div>
+        <p class="body-sm">以机械动力与生电技术为核心的中文 Minecraft Java 服务器。永不删档，长期在线。</p>
+        <p class="mono text-mute">mc.ljcyun.xyz:20058</p>
+        <p class="mono text-mute">QQ 群 1064599211</p>
+      </div>
+
+      <div class="footer__col">
+        <h4>服务器</h4>
+        <ul>
+          <li><a href="index.html">首页</a></li>
+          <li><a href="modes.html">玩法介绍</a></li>
+          <li><a href="rules.html">服务器规则</a></li>
+          <li><a href="faq.html">常见问题</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4>开始游戏</h4>
+        <ul>
+          <li><a href="join.html">进服指南</a></li>
+          <li><a href="join.html#pack">整合包下载</a></li>
+          <li><a href="join.html#skin">皮肤站说明</a></li>
+          <li><a href="join.html#errors">报错排查</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4>社区</h4>
+        <ul>
+          <li><a href="faq.html#contact">加入 QQ 群</a></li>
+          <li><a href="rules.html#appeal">封禁申诉</a></li>
+          <li><a href="modes.html#events">活动与比赛</a></li>
+          <li><a href="faq.html#staff">管理团队</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© <span data-year>2025</span> LJC 云服务器 · 保留所有权利</span>
+      <span>本站为玩家自建服务器站点，与 Mojang Studios 及 Microsoft 无隶属关系。</span>
+      <span class="mono">mc.ljcyun.xyz:20058</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

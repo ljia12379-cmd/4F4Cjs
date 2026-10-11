@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>常见问题 · LJC 云服务器</title>
+<meta name="description" content="LJC 云服务器（LJCraft）常见问题：需要正版吗、三步进服流程、客户端版本与整合包下载、皮肤站怎么用、领地怎么圈、会不会删档、卡顿掉线怎么办、封禁如何申诉。QQ 群 1064599211。">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:type" content="website">
+<meta property="og:title" content="常见问题 · LJC 云服务器">
+<meta property="og:description" content="进服、账号、玩法、管理与申诉，一次说清。服务器地址 mc.ljcyun.xyz:20058，QQ 群 1064599211。">
+<meta property="og:image" content="assets/img/favicon.svg">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>
+  /* 主题引导：在首次绘制前确定主题，避免闪白。默认深色（可切换并记忆） */
+  (function () {
+    var t = "dark";
+    try {
+      var saved = localStorage.getItem("ljc-theme");
+      if (saved === "dark" || saved === "light") t = saved;
+    } catch (e) {}
+    document.documentElement.setAttribute("data-theme", t);
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.setAttribute("content", t === "dark" ? "#000000" : "#ffffff");
+  })();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<!-- 图标精灵 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9.5" y="9.5" width="10" height="10" rx="2.5"/><path d="M14.5 6.5V6a2.5 2.5 0 0 0-2.5-2.5H6.5A2.5 2.5 0 0 0 4 6v5.5A2.5 2.5 0 0 0 6.5 14h.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5 9 17l10.5-10.5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13"/><path d="m12.5 6.5 5.5 5.5-5.5 5.5"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H9.5L4 20V6.5Z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2 5 6v5.4c0 4.2 2.9 7.5 7 9.1 4.1-1.6 7-4.9 7-9.1V6l-7-2.8Z"/><path d="m9 12 2.2 2.2L15.4 10"/></symbol>
+  <symbol id="i-archive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="7.5" ry="3"/><path d="M4.5 6v12c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3V6"/><path d="M4.5 12c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5.5" width="17" height="15" rx="2.5"/><path d="M3.5 10.5h17M8 3.5v4M16 3.5v4"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9.5 6 6 6-6"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-cube" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.6 20.8 7.4v9.2L12 21.4 3.2 16.6V7.4L12 2.6Z"/><path d="M12 12 20.8 7.4M12 12v9.4M12 12 3.2 7.4"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13.4 3 6.5 13.4h4.6L10.6 21l6.9-10.4h-4.6L13.4 3Z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 3.4v2.2M12 18.4v2.2M5 7.6l1.9 1.1M17.1 15.3l1.9 1.1M5 16.4l1.9-1.1M17.1 8.7l1.9-1.1"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.6 19.6c0-3 2.4-5.4 5.4-5.4s5.4 2.4 5.4 5.4"/><path d="M15.8 5.3a3.2 3.2 0 0 1 0 6M17.4 14.5c2 .8 3.4 2.8 3.4 5.1"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v11"/><path d="m8 10.5 4 4 4-4"/><path d="M4.5 17v1.5a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V17"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H19v15H6.5A2.5 2.5 0 0 0 4 20.5v-15Z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H19v3H6.5A2.5 2.5 0 0 1 4 20.5Z"/></symbol>
+</svg>
+
+<!-- ── 导航 ─────────────────────────────────────────────────────────────── -->
+<header class="nav">
+  <div class="container nav__inner">
+    <a class="nav__brand" href="index.html" aria-label="LJC 云服务器 · 回到首页">
+      <img class="nav__brand-mark" src="assets/img/logo.svg" alt="" width="26" height="26">
+      <span class="nav__brand-text">LJC 云服务器<span>LJCraft</span></span>
+    </a>
+
+    <nav class="nav__links" aria-label="主导航">
+      <a class="nav__link" href="index.html" data-nav-link>首页</a>
+      <a class="nav__link" href="modes.html" data-nav-link>玩法</a>
+      <a class="nav__link" href="join.html" data-nav-link>进服指南</a>
+      <a class="nav__link" href="rules.html" data-nav-link>规则</a>
+      <a class="nav__link" href="faq.html" data-nav-link>问答</a>
+    </nav>
+
+    <div class="nav__actions">
+      <a class="nav-cta nav-cta--ghost" href="join.html">
+        <svg class="btn__icon" aria-hidden="true"><use href="#i-book"/></svg>
+        新手引导
+      </a>
+      <button class="nav-cta nav-cta--primary" type="button"
+              data-copy="mc.ljcyun.xyz:20058" data-copy-label="已复制">
+        <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+        <span>复制地址</span>
+      </button>
+    </div>
+
+    <button class="nav__toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-mobile">
+      <svg aria-hidden="true"><use href="#i-menu"/></svg>
+      <span class="sr-only">打开导航菜单</span>
+    </button>
+  </div>
+
+  <div class="nav__mobile" id="nav-mobile" data-nav-panel data-open="false">
+    <ul>
+      <li><a href="index.html" data-nav-link>首页</a></li>
+      <li><a href="modes.html" data-nav-link>玩法</a></li>
+      <li><a href="join.html" data-nav-link>进服指南</a></li>
+      <li><a href="rules.html" data-nav-link>规则</a></li>
+      <li><a href="faq.html" data-nav-link>问答</a></li>
+    </ul>
+    <div class="nav__actions">
+      <button class="nav-cta nav-cta--primary" type="button"
+              data-copy="mc.ljcyun.xyz:20058" data-copy-label="已复制">
+        <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+        <span>复制服务器地址</span>
+      </button>
+      <button class="nav-cta nav-cta--ghost" type="button"
+              data-copy="1064599211" data-copy-label="已复制">
+        <svg class="btn__icon" aria-hidden="true"><use href="#i-chat"/></svg>
+        <span>复制 QQ 群号</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ── Hero ───────────────────────────────────────────────────────────── -->
+  <section class="hero hero--compact">
+    <div class="mesh" aria-hidden="true">
+      <div class="mesh__canvas"></div>
+      <div class="mesh__fade"></div>
+    </div>
+
+    <div class="container hero__inner">
+      <span class="eyebrow" data-reveal>常见问题</span>
+
+      <h1 class="display-xl hero__title" data-reveal data-reveal-delay="60">
+        进服、账号、玩法，一次说清。
+      </h1>
+
+      <p class="lead hero__lead" data-reveal data-reveal-delay="120">
+        下面这些问题来自玩家的真实提问，按类别整理好了。
+        没找到答案就去 QQ 群问，群里有人常驻，问问题不用客气。
+      </p>
+
+      <div class="cta-row hero__cta" data-reveal data-reveal-delay="180">
+        <button class="btn btn--primary" type="button"
+                data-copy="mc.ljcyun.xyz:20058" data-copy-label="地址已复制">
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+          <span>复制服务器地址</span>
+        </button>
+        <a class="btn btn--secondary" href="#contact">
+          去群里问一句
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+
+      <div class="hero__meta" data-reveal data-reveal-delay="220">
+        <span>Java 版 1.20.1 · Forge</span>
+        <span>无需正版</span>
+        <span>四类问题</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 分类导航 ───────────────────────────────────────────────────────── -->
+  <section class="band band--soft" style="padding-block:32px" aria-label="问题分类">
+    <nav class="container pill-row" aria-label="问题分类导航">
+      <a class="pill" href="#join">
+        <svg class="btn__icon" aria-hidden="true"><use href="#i-book"/></svg>
+        进服相关<span class="mono">JOIN</span>
+      </a>
+      <a class="pill" href="#account">
+        <svg class="btn__icon" aria-hidden="true"><use href="#i-users"/></svg>
+        账号与皮肤<span class="mono">ACCOUNT</span>
+      </a>
+      <a class="pill" href="#tech">
+        <svg class="btn__icon" aria-hidden="true"><use href="#i-gear"/></svg>
+        玩法与技术<span class="mono">TECH</span>
+      </a>
+      <a class="pill" href="#staff">
+        <svg class="btn__icon" aria-hidden="true"><use href="#i-shield"/></svg>
+        管理与申诉<span class="mono">STAFF</span>
+      </a>
+    </nav>
+  </section>
+
+  <!-- ── 进服相关 ───────────────────────────────────────────────────────── -->
+  <section class="band band--canvas" aria-label="进服相关">
+    <div class="container container--narrow">
+      <div class="section-head" id="join" data-reveal>
+        <span class="eyebrow">01 · 进服相关</span>
+        <h2 class="display-lg">第一次进服，先看这几条。</h2>
+        <p class="lead">从账号到客户端版本，进服前后最容易卡住的地方都在这里。</p>
+      </div>
+
+      <div class="faq" data-reveal>
+        <details class="faq__item">
+          <summary class="faq__q">需要正版账号才能进服吗？
+            <svg class="faq__chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </summary>
+          <div class="faq__a">
+            <p>不需要。服务器支持离线登录，没有正版账号也能直接进服，皮肤通过服务器自建的皮肤站加载。</p>
+            <p>第一次进服前，建议先加 QQ 群 1064599211 看一遍群公告：整合包、皮肤站说明和维护通知都发在里面。</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary class="faq__q">怎么进服？大概分几步？
+            <svg class="faq__chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </summary>
+          <div class="faq__a">
+            <p>三步，熟悉启动器的话五分钟就能进游戏：</p>
+            <ul>
+              <li>安装 Java 21，群文件里有安装包，装完不用额外配置。</li>
+              <li>在启动器里导入 LJC 整合包，等待依赖下载完成。</li>
+              <li>启动游戏 → 多人游戏 → 添加服务器 → 地址填 <code class="inline">mc.ljcyun.xyz:20058</code> → 加入服务器。</li>
+            </ul>
+            <p>带截图的完整步骤见 <a class="inline-link" href="join.html">进服指南</a>。</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary class="faq__q">客户端要用什么版本？整合包在哪里下载？
+            <svg class="faq__chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </summary>
+          <div class="faq__a">
+            <p>客户端是 Java 版 1.20.1 + Forge，核心是机械动力（Create 6 系列）整合包。</p>
+            <p>整合包与完整模组清单都放在 QQ 群文件里，下载后直接在启动器导入即可。请使用群里发布的版本：自己拼的模组列表很容易因为不一致被服务端拒绝连接。下载说明整理在 <a class="inline-link" href="join.html#pack">进服指南的整合包部分</a>。</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary class="faq__q">手机上的基岩版能进服吗？
+            <svg class="faq__chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </summary>
+          <div class="faq__a">
+            <p>不能。LJC 是 Java 版服务器（1.20.1 + Forge），基岩版客户端无法直接加入，手机端目前也没有受支持的进服方式。</p>
+            <p>整合包对性能要求较高，建议在电脑上游玩，体验也更接近服务器的设计预期。</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary class="faq__q">连接时提示版本不匹配，或者干脆进不去怎么办？
+            <svg class="faq__chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </summary>
+          <div class="faq__a">
+            <p>先核对三件事：客户端是不是 1.20.1 + Forge、有没有用群文件里的整合包、模组列表有没有自己增减。</p>
+            <p>三项都一致还是进不去，把启动器的完整报错截图发到 QQ 群，管理组会帮你看。常见报错的处理方式也写在 <a class="inline-link" href="join.html#errors">报错排查</a> 里。</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 账号与皮肤 ─────────────────────────────────────────────────────── -->
+  <section class="band band--soft" aria-label="账号与皮肤">
+    <div class="container container--narrow">
+      <div class="section-head" id="account" data-reveal>
+        <span class="eyebrow">02 · 账号与皮肤</span>
+        <h2 class="display-lg">离线登录，也能有自己的样子。</h2>
+        <p class="lead">服务器不需要正版，身份和皮肤由 ID 与自建皮肤站承担。</p>
+      </div>
+
+      <div class="faq" data-reveal>
+        <details class="faq__item">
+          <summary class="faq__q">皮肤站怎么用？皮肤怎么上传？
+            <svg class="faq__chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </summary>
+          <div class="faq__a">
+            <p>皮肤站是服务器自建的登录与皮肤服务。流程很简单：按群公告的说明注册账号，上传一张符合 Minecraft 规格的皮肤图片，然后在启动器里用同一个 ID 登录，进游戏就能看到自己的皮肤。</p>
+            <p>皮肤没生效时，先确认启动器里的 ID 与皮肤站账号完全一致，再重启一次客户端。</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary class="faq__q">皮肤站的地址是什么？
+            <svg class="faq__chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </summary>
+          <div class="faq__a">
+            <p>皮肤站地址在 QQ 群公告内提供，这里不单独列出。进群后看公告里的皮肤站一条，按里面的地址注册与上传皮肤。</p>
+            <p>地址如果发生变动，也会先在群公告同步，照公告为准就不会走错。</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary class="faq__q">离线登录有什么限制吗？
+            <svg class="faq__chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </summary>
+          <div class="faq__a">
+            <p>玩法上没有区别，不会因为离线登录被限制功能。需要注意的是身份由游戏 ID 决定，所以请固定使用自己的 ID，不要占用别人的名字。</p>
+            <p>皮肤需要皮肤站加载才会显示；没上传皮肤时就是默认外观。</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary class="faq__q">想用的 ID 已经被别人占用了怎么办？
+            <svg class="faq__chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </summary>
+          <div class="faq__a">
+            <p>在 QQ 群里说明情况，管理组会核对该 ID 的历史登录记录。如果确认是你长期使用的名字，会协助你处理。</p>
+            <p>不建议为了抢名字反复更换 ID：领地、容器权限和建筑归属都绑在 ID 上，换名字容易把自己的东西弄丢。</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary class="faq__q">换了电脑之后，皮肤和进度还在吗？
+            <svg class="faq__chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </summary>
+          <div class="faq__a">
+            <p>都在。皮肤跟着皮肤站账号走，重新登录就会自动加载；建筑、机器、背包与领地数据都存在服务端，不会因为换客户端而丢失。</p>
+            <p>唯一的例外是单人存档：它保存在本地，服务器不代管，需要你自己备份。</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 玩法与技术 ─────────────────────────────────────────────────────── -->
+  <section class="band band--canvas" aria-label="玩法与技术">
+    <div class="container container--narrow">
+      <div class="section-head" id="tech" data-reveal>
+        <span class="eyebrow">03 · 玩法与技术</span>
+        <h2 class="display-lg">关于圈地、建机器和模组。</h2>
+        <p class="lead">这一组问题问得最多，尤其是领地保护和大型机器报备。</p>
+      </div>
+
+      <div class="faq" data-reveal>
+        <details class="faq__item">
+          <summary class="faq__q">领地怎么圈？怎么给别人权限？
+            <svg class="faq__chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </summary>
+          <div class="faq__a">
+            <p>服务器提供领地保护。先用圈地指令把地块圈起来，再用权限指令把信任的玩家加进领地，重要箱子可以额外上锁。</p>
+            <p>具体的指令组与权限说明写在群公告里，也可以在游戏内输入 <code class="inline">/help</code> 查看当前可用指令。建议动工前先圈地，别等建完再补。</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary class="faq__q">服务器会删档吗？我造的机器能留多久？
+            <svg class="faq__chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </summary>
+          <div class="faq__a">
+            <p>不会删档。地图与玩家数据长期保留，版本更新采用兼容迁移的方式，不整档重置。</p>
+            <p>也就是说，你现在开始建的基地和产线，可以一直放在原地。</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary class="faq__q">服务器卡顿、掉线怎么办？
+            <svg class="faq__chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </summary>
+          <div class="faq__a">
+            <p>先区分是个人的问题还是全服的问题。只有你卡，多半是内存分配、视距或光影设置偏高，调低之后会明显改善。</p>
+            <p>如果群里大家都卡，通常是某台机器在堆积实体或加载区块。把坐标和现象发到 QQ 群，管理组会去查；维护与重启也会提前在群公告通知。</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary class="faq__q">可以带自己的模组进服吗？
+            <svg class="faq__chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </summary>
+          <div class="faq__a">
+            <p>不可以随意加装。客户端模组列表需要与服务器一致，单方面加模组通常会被拒绝连接。</p>
+            <p>确实需要的功能性模组，先在群里问一下管理组，确认不会影响服务端和其他玩家再装。</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary class="faq__q">大型机器能建吗？TNT 世吞、刷怪塔要不要报备？
+            <svg class="faq__chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </summary>
+          <div class="faq__a">
+            <p>能建，但需要先报备。把坐标和用途发到 QQ 群，管理组确认不会与别人的建筑、领地冲突之后再动工。</p>
+            <p>计划建在公共设施或别人基地附近的，请先和当事人协商。这条同样写在 <a class="inline-link" href="rules.html">服务器规则</a> 里。</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary class="faq__q">服务器现在是什么玩法？新人能跟上吗？
+            <svg class="faq__chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </summary>
+          <div class="faq__a">
+            <p>主玩法是机械动力（Create 6 系列）整合包，同时保留了完整的生电环境，红石玩家也有足够的空间。</p>
+            <p>没接触过机械动力的新人可以先跟着群里的教程从水车、蒸汽机做起，再做传送带和列车；卡住了在群里问，基本都有人答。</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 管理与申诉 ─────────────────────────────────────────────────────── -->
+  <section class="band band--soft" aria-label="管理与申诉">
+    <div class="container container--narrow">
+      <div class="section-head" id="staff" data-reveal>
+        <span class="eyebrow">04 · 管理与申诉</span>
+        <h2 class="display-lg">出问题找谁，怎么找。</h2>
+        <p class="lead">举报、申诉和权限申请都通过 QQ 群提交，处理依据是服务端行为日志。</p>
+      </div>
+
+      <div class="faq" data-reveal>
+        <details class="faq__item">
+          <summary class="faq__q">被封禁或者被限制权限了，怎么申诉？
+            <svg class="faq__chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </summary>
+          <div class="faq__a">
+            <p>在 QQ 群提交游戏 ID、发生时间、坐标与截图，管理组会调取行为日志核对当时的方块与容器改动，然后回复处理结果。</p>
+            <p>确认是误判会解除处理，并恢复受影响的部分。完整流程见 <a class="inline-link" href="rules.html#appeal">规则页的申诉部分</a>。</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary class="faq__q">发现有人破坏、偷东西或者作弊，怎么举报？
+            <svg class="faq__chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </summary>
+          <div class="faq__a">
+            <p>把坐标、大致时间和截图或录像发给管理组。方块与容器的改动都有行为日志可查，确认之后可以回滚被破坏的部分。</p>
+            <p>举报不需要先和对方争吵，也不用担心被针对；举报人的信息不会被公开。</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary class="faq__q">可以申请管理员吗？
+            <svg class="faq__chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </summary>
+          <div class="faq__a">
+            <p>管理组不公开招募，通常从长期在线、熟悉规则、愿意帮新人的玩家中邀请。</p>
+            <p>想参与服务器事务，可以先做活动志愿者、帮忙整理教程或者带新人，做得多自然会被看到。</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary class="faq__q">能申请建筑权限或者创造模式吗？
+            <svg class="faq__chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </summary>
+          <div class="faq__a">
+            <p>服务器以生存玩法为主，不向个人发放创造模式权限，所有建筑都在生存条件下完成，这样作品才有可比性。</p>
+            <p>活动与比赛期间会开放专门的比赛场地或创造区域，具体报名与使用方式看群公告。</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary class="faq__q">管理组会查看我的箱子或者私聊内容吗？
+            <svg class="faq__chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </summary>
+          <div class="faq__a">
+            <p>不会无故查看。行为日志只在处理举报、申诉和回滚破坏时被调取，用来确认方块与容器的改动记录。</p>
+            <p>正常的建造、交易和玩家之间的交换不会被干预。</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 联系与支持 ─────────────────────────────────────────────────────── -->
+  <section class="band band--canvas" id="contact">
+    <div class="container">
+      <div class="card card--lg" style="padding:clamp(24px,4vw,48px)" data-reveal>
+        <div class="split split--wide-right" style="align-items:center;gap:var(--sp-xl)">
+          <div class="split__copy">
+            <span class="eyebrow">联系与支持</span>
+            <h2 class="display-lg">找不到答案，就进群问。</h2>
+            <p class="body-md">
+              QQ 群是服务器唯一的公告与支持渠道：整合包更新、开服与维护通知、活动报名、封禁申诉都发在这里。
+              群里有人常驻，问题描述得越具体（坐标、报错截图、客户端版本），解决得越快。
+            </p>
+            <div class="cta-row mt-md">
+              <button class="btn btn--primary" type="button"
+                      data-copy="1064599211" data-copy-label="群号已复制">
+                <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+                <span>复制群号 1064599211</span>
+              </button>
+              <a class="btn btn--secondary" href="rules.html#appeal">
+                看申诉流程
+                <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="stack-md">
+            <div class="card card--soft" style="gap:6px">
+              <span class="eyebrow">QQ 群号</span>
+              <p class="display-lg" style="font-family:var(--font-mono);font-weight:400;letter-spacing:-1px">1064599211</p>
+              <p class="body-sm">打开 QQ → 搜索群号 → 申请加入，进群后请先看群公告。</p>
+            </div>
+            <div class="grid grid--2" style="gap:var(--sp-sm)">
+              <div class="card card--soft" style="gap:4px">
+                <span class="eyebrow">群公告</span>
+                <p class="body-sm">整合包更新、皮肤站说明、活动与维护通知</p>
+              </div>
+              <div class="card card--soft" style="gap:4px">
+                <span class="eyebrow">技术支持</span>
+                <p class="body-sm">崩溃、报错、进不去服与延迟问题排查</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 结尾 CTA ───────────────────────────────────────────────────────── -->
+  <section class="cta-band">
+    <div class="mesh" aria-hidden="true">
+      <div class="mesh__canvas"></div>
+      <div class="mesh__fade mesh__fade--up"></div>
+    </div>
+    <div class="container cta-band__inner">
+      <span class="eyebrow" data-reveal>问题问完了</span>
+      <h2 class="display-lg" data-reveal data-reveal-delay="60" style="max-width:18em">剩下的事，进服做一台机器就知道了。</h2>
+      <p class="lead" data-reveal data-reveal-delay="120" style="max-width:34em">
+        mc.ljcyun.xyz:20058 · QQ 群 1064599211
+      </p>
+      <div class="cta-row" style="justify-content:center" data-reveal data-reveal-delay="180">
+        <button class="btn btn--primary" type="button"
+                data-copy="mc.ljcyun.xyz:20058" data-copy-label="地址已复制">
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-copy"/></svg>
+          <span>复制服务器地址</span>
+        </button>
+        <a class="btn btn--secondary" href="join.html">
+          查看进服指南
+          <svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── 页脚 ─────────────────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__col footer__brand">
+        <div class="footer__brand-mark">
+          <img src="assets/img/logo.svg" alt="" width="26" height="26">
+          LJC 云服务器
+        </div>
+        <p class="body-sm">以机械动力与生电技术为核心的中文 Minecraft Java 服务器。永不删档，长期在线。</p>
+        <p class="mono text-mute">mc.ljcyun.xyz:20058</p>
+        <p class="mono text-mute">QQ 群 1064599211</p>
+      </div>
+
+      <div class="footer__col">
+        <h4>服务器</h4>
+        <ul>
+          <li><a href="index.html">首页</a></li>
+          <li><a href="modes.html">玩法介绍</a></li>
+          <li><a href="rules.html">服务器规则</a></li>
+          <li><a href="faq.html">常见问题</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4>开始游戏</h4>
+        <ul>
+          <li><a href="join.html">进服指南</a></li>
+          <li><a href="join.html#pack">整合包下载</a></li>
+          <li><a href="join.html#skin">皮肤站说明</a></li>
+          <li><a href="join.html#errors">报错排查</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4>社区</h4>
+        <ul>
+          <li><a href="faq.html#contact">加入 QQ 群</a></li>
+          <li><a href="rules.html#appeal">封禁申诉</a></li>
+          <li><a href="modes.html#events">活动与比赛</a></li>
+          <li><a href="faq.html#staff">管理团队</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© <span data-year>2025</span> LJC 云服务器 · 保留所有权利</span>
+      <span>本站为玩家自建服务器站点，与 Mojang Studios 及 Microsoft 无隶属关系。</span>
+      <span class="mono">mc.ljcyun.xyz:20058</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
